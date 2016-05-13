@@ -1,0 +1,19 @@
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+target/
+*.versionsBackup
+
+# Gradle
+.gradle/
+build/
+
+# OSX
+*.DS_Store
+
+kubernetes.tar.gz
+kubernetes/
