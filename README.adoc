@@ -3,13 +3,13 @@ image:https://badge.waffle.io/lreimer/cloud-native-javaee.png?label=ready&title=
 image:https://badge.waffle.io/lreimer/cloud-native-javaee.png?label=in%20progress&title=In%20Progress["Stories in Progress", link="http://waffle.io/lreimer/cloud-native-javaee"]
 image:https://img.shields.io/badge/license-MIT%20License-blue.svg["MIT License", link=https://github.com/lreimer/cloud-native-javaee/blob/master/LICENSE"]
 
-# Cloud Native JavaEE 7 Showcase
+= Cloud Native JavaEE 7 Showcase
 
 This showcase demonstrates how to build a cloud native application using JEE7 and
 selected open source components from Netflix OSS. The individual parts will later
 be deployed and run using Docker, Kubernetes and DC/OS.
 
-## Build instructions
+== Build instructions
 
 In order to compile and run the examples you do not need much. A recent JDK8 needs to
 be available in your SEU.
@@ -17,17 +17,17 @@ be available in your SEU.
 $ ./gradlew clean build
 ```
 
-## Running the Cloud Native JEE7 showcase
+== Running the Cloud Native JEE7 showcase
 
 The showcase can be run on your local machine as well as using Docker, Kubernetes
 and DC/OS.
 
 
-## References
+== References
 
-* [JSR 236](https://www.jcp.org/en/jsr/detail?id=236)
-* [Hystrix](https://github.com/Netflix/Hystrix)
+* https://www.jcp.org/en/jsr/detail?id=236[JSR 236]
+* https://github.com/Netflix/Hystrix[Hystrix]
 
-## License
+== License
 
-This software is provided under the MIT open source license, read the `LICENSE.txt` file for details.
+This software is provided under the MIT open source license, read the `LICENSE` file for details.
