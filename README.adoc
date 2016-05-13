@@ -25,7 +25,8 @@ and DC/OS.
 
 ## References
 
-* [Spring Initializr](https://start.spring.io)
+* [JSR 236](https://www.jcp.org/en/jsr/detail?id=236)
+* [Hystrix](https://github.com/Netflix/Hystrix)
 
 ## License
 
