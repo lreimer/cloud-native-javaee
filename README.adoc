@@ -1,0 +1,32 @@
+[![Build Status](https://travis-ci.org/qaware/cloud-native-javaee.svg?branch=master)](https://travis-ci.org/qaware/cloud-native-javaee)
+[![Stories in Ready](https://badge.waffle.io/qaware/cloud-native-javaee.png?label=ready&title=Ready)](https://waffle.io/qaware/cloud-native-javaee)
+[![Stories in Progress](https://badge.waffle.io/qaware/cloud-native-javaee.png?label=in%20progress&title=In%20Progress)](https://waffle.io/qaware/cloud-native-javaee)
+[![MIT License](https://img.shields.io/badge/license-MIT%20License-blue.svg)](https://github.com/qaware/cloud-native-javaee/blob/master/LICENSE)
+
+# Cloud Native JavaEE 7 Showcase
+
+This showcase demonstrates how to build a cloud native application using JEE7 and
+selected open source components from Netflix OSS. The individual parts will later
+be deployed and run using Docker, Kubernetes and DC/OS.
+
+## Build instructions
+
+In order to compile and run the examples you do not need much. A recent JDK8 needs to
+be available in your SEU.
+```shell
+$ ./gradlew clean build
+```
+
+## Running the Cloud Native JEE7 showcase
+
+The showcase can be run on your local machine as well as using Docker, Kubernetes
+and DC/OS.
+
+
+## References
+
+* [Spring Initializr](https://start.spring.io)
+
+## License
+
+This software is provided under the MIT open source license, read the `LICENSE.txt` file for details.
