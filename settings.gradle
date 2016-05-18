@@ -1,2 +1,3 @@
 include ':hystrix-jsr236'
+include ':ribbon-jsr339'
 include ':ribbon-jsr346'
