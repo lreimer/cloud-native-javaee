@@ -25,8 +25,13 @@ and DC/OS.
 
 == References
 
-* https://www.jcp.org/en/jsr/detail?id=236[JSR 236]
-* https://github.com/Netflix/Hystrix[Hystrix]
+* https://www.jcp.org/en/jsr/detail?id=236[JSR 236: Concurrency Utilities for Java EE 1.0]
+* https://github.com/Netflix/Hystrix[Netflix/Hystrix]
+* https://www.jcp.org/en/jsr/detail?id=339[JSR 339: JAX-RS 2.0]
+* https://www.jcp.org/en/jsr/detail?id=346[JSR 346: Contexts and Dependency Injection for Java EE 1.1]
+* https://github.com/Netflix/ribbon[Netflix/ribbon]
+
+
 
 == License
 
