@@ -1,0 +1,8 @@
+apply plugin: 'application'
+
+mainClassName = 'de.qaware.cloud.nativ.javaee.room.RoomServiceApp'
+
+dependencies {
+    compile 'fish.payara.extras:payara-micro:4.1.1.162'
+    runtime project(path: ':room-service', configuration: 'archives')
+}

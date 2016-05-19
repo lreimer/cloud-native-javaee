@@ -1,5 +1,9 @@
 
 dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.12'
+
     compile 'com.netflix.hystrix:hystrix-core:1.5.2'
     compile 'javax.enterprise.concurrent:javax.enterprise.concurrent-api:1.0'
+
+    testCompile 'org.slf4j:slf4j-simple:1.7.12'
 }
