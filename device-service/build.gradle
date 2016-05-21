@@ -1,0 +1,16 @@
+apply plugin: 'war'
+
+dependencies {
+    providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    providedCompile 'javax.enterprise:cdi-api:1.1'
+    providedCompile 'fish.payara.extras:payara-micro:4.1.1.162'
+}
+
+sourceSets {
+    main {
+        output.resourcesDir = 'build/classes/main'
+    }
+    test {
+        output.resourcesDir = 'build/classes/test'
+    }
+}
