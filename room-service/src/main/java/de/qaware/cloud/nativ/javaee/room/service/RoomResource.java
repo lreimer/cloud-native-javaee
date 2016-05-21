@@ -21,10 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.room;
+package de.qaware.cloud.nativ.javaee.room.service;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Created by mario-leander.reimer on 19.05.16.
+ * The rooms resource provides the REST APIs of the room service.
+ *
+ * @author lreimer
  */
-public class Room {
+@Path("rooms")
+public class RoomResource {
+
+    @GET
+    public List<Room> rooms() {
+        return Collections.emptyList();
+    }
 }

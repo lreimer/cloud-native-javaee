@@ -21,23 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.room;
-
-import fish.payara.micro.BootstrapException;
-import fish.payara.micro.PayaraMicro;
-
-import java.io.File;
+package de.qaware.cloud.nativ.javaee.room.service;
 
 /**
- * The room service application starts a Payara micro edition instance and
- * adds the lib/ directory for deployment scanning.
+ * The room model POJO.
  *
  * @author lreimer
  */
-public class RoomServiceApp {
-    public static void main(String[] args) throws BootstrapException {
-        PayaraMicro.getInstance()
-                .setDeploymentDir(new File("lib"))
-                .bootStrap();
-    }
+public class Room {
 }

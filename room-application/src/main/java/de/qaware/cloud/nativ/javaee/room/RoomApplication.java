@@ -23,21 +23,27 @@
  */
 package de.qaware.cloud.nativ.javaee.room;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import java.util.Collections;
-import java.util.List;
+import fish.payara.micro.BootstrapException;
+import fish.payara.micro.PayaraMicro;
+
+import java.io.File;
+import java.util.UUID;
 
 /**
- * The rooms resource to handle rooms.
+ * The room service application starts a Payara micro edition instance and
+ * adds the lib/ directory for deployment scanning.
  *
  * @author lreimer
  */
-@Path("rooms")
-public class RoomResource {
-
-    @GET
-    public List<Room> rooms() {
-        return Collections.emptyList();
+public class RoomApplication {
+    public static void main(String[] args) throws BootstrapException {
+        PayaraMicro.getInstance()
+                .setInstanceName("RoomService-" + UUID.randomUUID().toString())
+                .setHttpPort(8100)
+                .setHttpAutoBind(true)
+                .setAutoBindRange(20)
+                .setPrintLogo(false)
+                .setDeploymentDir(new File("lib"))
+                .bootStrap();
     }
 }
