@@ -1,9 +1,19 @@
 apply plugin: 'war'
+apply plugin: 'org.mikeneck.payara-plugin'
 
 dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.12'
+    runtime 'org.slf4j:slf4j-jdk14:1.7.12'
+    runtime project(':logging-jsr346')
+
     providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
     providedCompile 'javax.enterprise:cdi-api:1.1'
     providedCompile 'fish.payara.extras:payara-micro:4.1.1.162'
+}
+
+payara {
+    httpPort 8080
+    stopPort 5050
 }
 
 sourceSets {

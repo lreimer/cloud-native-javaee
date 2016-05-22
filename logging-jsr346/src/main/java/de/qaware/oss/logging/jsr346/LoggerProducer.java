@@ -21,47 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.service;
+package de.qaware.oss.logging.jsr346;
 
 import org.slf4j.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 
 /**
- * A dummy device repository that contains some static devices.
+ * A CDI producer implementation to inject Logger instance.
  *
  * @author lreimer
  */
 @ApplicationScoped
-public class DummyDeviceRepository implements DeviceRepository {
-
-    private final ConcurrentMap<String, Device> devices = new ConcurrentHashMap<>();
-
-    @Inject
-    private Logger logger;
-
-    @PostConstruct
-    public void initialize() {
-        devices.putIfAbsent("0815", new Device("0815", 1));
-        devices.putIfAbsent("4711", new Device("4711", 2));
-        devices.putIfAbsent("2305", new Device("2305", 3));
-    }
-
-    @Override
-    public Collection<Device> findAll() {
-        logger.debug("Returning all dummy devices.");
-        return devices.values();
-    }
-
-    @Override
-    public Optional<Device> findById(String deviceId) {
-        logger.debug("Find dummy device by ID={}.", deviceId);
-        return Optional.ofNullable(devices.get(deviceId));
+public class LoggerProducer {
+    /**
+     * The CDI producer method for SLF4J loggers.
+     *
+     * @param ip the injection point
+     * @return a suitable logger
+     */
+    @Produces
+    @Default
+    public Logger createLogger(final InjectionPoint ip) {
+        Class declaringClass = ip.getMember().getDeclaringClass();
+        return org.slf4j.LoggerFactory.getLogger(declaringClass);
     }
 }

@@ -24,6 +24,7 @@
 package de.qaware.cloud.nativ.javaee.device.service;
 
 import fish.payara.micro.cdi.Outbound;
+import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -39,6 +40,9 @@ import javax.inject.Inject;
 public class DeviceEventTransmitter {
 
     @Inject
+    private Logger logger;
+
+    @Inject
     @Outbound
     private Event<DeviceEvent> events;
 
@@ -49,6 +53,7 @@ public class DeviceEventTransmitter {
      * @param cardId the card ID
      */
     public void fire(int roomNr, String cardId) {
+        logger.debug("Fire DeviceEvent for roomNr={} and cardId={}.", roomNr, cardId);
         events.fire(new DeviceEvent(roomNr, cardId));
     }
 }

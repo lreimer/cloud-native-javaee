@@ -25,6 +25,11 @@ package de.qaware.cloud.nativ.javaee.device.service;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -38,13 +43,17 @@ import static org.junit.Assert.assertThat;
  *
  * @author lreimer
  */
+@RunWith(MockitoJUnitRunner.class)
 public class DummyDeviceRepositoryTest {
 
+    @Mock
+    private Logger logger;
+
+    @InjectMocks
     private DummyDeviceRepository repository;
 
     @Before
     public void setUp() throws Exception {
-        repository = new DummyDeviceRepository();
         repository.initialize();
     }
 
