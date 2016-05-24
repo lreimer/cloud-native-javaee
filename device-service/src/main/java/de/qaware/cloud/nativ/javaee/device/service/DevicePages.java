@@ -23,20 +23,24 @@
  */
 package de.qaware.cloud.nativ.javaee.device.service;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.Collections;
-import java.util.Set;
+import org.glassfish.jersey.server.mvc.Template;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 /**
- * The JAX-RS application for the device service.
+ * A special Jersey MVC resource to render the device service pages.
  *
  * @author lreimer
  */
-@ApplicationPath("resources")
-public class DeviceServiceApplication extends Application {
-    @Override
-    public Set<Class<?>> getClasses() {
-        return Collections.singleton(DeviceResource.class);
+@Path("/")
+@Produces(MediaType.TEXT_HTML)
+public class DevicePages {
+    @GET
+    @Template(name = "index.jsp")
+    public String index() {
+        return "Device Service";
     }
 }

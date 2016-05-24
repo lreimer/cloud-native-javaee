@@ -23,20 +23,22 @@
  */
 package de.qaware.cloud.nativ.javaee.room.service;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import java.util.Collections;
-import java.util.Set;
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
 
 /**
- * The JAX-RS application for the room service.
+ * The JAX-RS application for the room service UI.
  *
  * @author lreimer
  */
-@ApplicationPath("resources")
-public class RoomServiceApplication extends Application {
-    @Override
-    public Set<Class<?>> getClasses() {
-        return Collections.singleton(RoomResource.class);
+public class RoomServiceUI extends ResourceConfig {
+    public RoomServiceUI() {
+        super(RoomPages.class);
+
+        register(JspMvcFeature.class);
+        register(LoggingFilter.class);
+
+        property(JspMvcFeature.TEMPLATE_BASE_PATH, "/WEB-INF/pages");
     }
 }

@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
 <head>
-    <title>Room Service</title>
+    <title>${it}</title>
 </head>
 <body>
-<h1>Room Service</h1>
+<h1>${it}</h1>
 </body>
 </html>

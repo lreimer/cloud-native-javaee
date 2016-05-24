@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
 <head>
-    <title>Device Service</title>
+    <title>${it}</title>
 </head>
 <body>
-<h1>Device Service</h1>
+<h1>${it}</h1>
 </body>
 </html>
+
