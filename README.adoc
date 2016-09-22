@@ -31,7 +31,9 @@ and DC/OS.
 * https://www.jcp.org/en/jsr/detail?id=346[JSR 346: Contexts and Dependency Injection for Java EE 1.1]
 * https://github.com/Netflix/ribbon[Netflix/ribbon]
 
+== Maintainer
 
+M.-Leander Reimer (@lreimer)
 
 == License
 

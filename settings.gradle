@@ -1,10 +1,10 @@
 include ':hystrix-jsr236'
+include ':hystrix-jsr339'
+
 include ':ribbon-jsr339'
 include ':ribbon-jsr346'
+
 include ':logging-jsr346'
 
-include ':device-application'
 include ':device-service'
-
-include ':room-application'
 include ':room-service'

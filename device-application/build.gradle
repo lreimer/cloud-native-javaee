@@ -1,8 +1,0 @@
-apply plugin: 'application'
-
-mainClassName = 'de.qaware.cloud.nativ.javaee.device.DeviceApplication'
-
-dependencies {
-    compile 'fish.payara.extras:payara-micro:4.1.1.162'
-    runtime project(path: ':device-service', configuration: 'archives')
-}
