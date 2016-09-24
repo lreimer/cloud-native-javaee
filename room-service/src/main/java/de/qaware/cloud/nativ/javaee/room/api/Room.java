@@ -25,8 +25,32 @@ package de.qaware.cloud.nativ.javaee.room.api;
 
 /**
  * The room model POJO.
- *
- * @author lreimer
  */
 public class Room {
+    private String name;
+    private int roomNr;
+
+    public Room() {
+    }
+
+    public Room(String name, int roomNr) {
+        this.name = name;
+        this.roomNr = roomNr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRoomNr() {
+        return roomNr;
+    }
+
+    public void setRoomNr(int roomNr) {
+        this.roomNr = roomNr;
+    }
 }

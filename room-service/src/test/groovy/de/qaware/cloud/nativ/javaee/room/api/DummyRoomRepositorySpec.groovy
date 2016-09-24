@@ -21,25 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.room.ui;
+package de.qaware.cloud.nativ.javaee.room.api
 
-import org.glassfish.jersey.filter.LoggingFilter;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
-
-import javax.ws.rs.ApplicationPath;
+import org.slf4j.Logger
+import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
- * The JAX-RS application for the room service UI.
+ * A simple Spock specification for our dummy room repository.
  */
-@ApplicationPath("ui")
-public class RoomServiceUI extends ResourceConfig {
-    public RoomServiceUI() {
-        super(RoomPages.class);
+class DummyRoomRepositorySpec extends Specification {
 
-        register(JspMvcFeature.class);
-        register(LoggingFilter.class);
+    Logger logger
+    DummyRoomRepository repository
 
-        property(JspMvcFeature.TEMPLATE_BASE_PATH, "/WEB-INF/pages");
+    def setup() {
+        logger = Mock(Logger)
+        repository = new DummyRoomRepository(logger)
+        repository.initialize()
+    }
+
+    def "Check for correct number of dummy rooms"() {
+        expect:
+        repository.all().size() == 4
+    }
+
+    @Unroll
+    def "Check that we find rooms by Nr #roomNr"() {
+        expect:
+        repository.byRoomNr(roomNr).isPresent() == found
+
+        where:
+        roomNr || found
+        1      || true
+        2      || true
+        3      || true
+        4      || true
+        5      || false
     }
 }

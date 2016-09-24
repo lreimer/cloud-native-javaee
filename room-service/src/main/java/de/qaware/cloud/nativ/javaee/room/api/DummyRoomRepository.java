@@ -23,54 +23,49 @@
  */
 package de.qaware.cloud.nativ.javaee.room.api;
 
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
+import org.slf4j.Logger;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.container.AsyncResponse;
-import javax.ws.rs.container.Suspended;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
- * The rooms resource provides the REST APIs of the room service.
+ * A dummy room repository that contains some static rooms.
  */
 @ApplicationScoped
-@Path("/rooms")
-@Produces(MediaType.APPLICATION_JSON)
-public class RoomResource {
+public class DummyRoomRepository implements RoomRepository {
+
+    private final ConcurrentMap<Integer, Room> rooms = new ConcurrentHashMap<>();
+
+    private final Logger logger;
 
     @Inject
-    private RoomRepository repository;
-
-    @Resource
-    private ManagedExecutorService executor;
-
-    @GET
-    public void rooms(@Suspended final AsyncResponse asyncResponse) {
-        executor.execute(() -> asyncResponse.resume(repository.all()));
+    public DummyRoomRepository(Logger logger) {
+        this.logger = logger;
     }
 
-    @GET
-    @Path("/{roomNr}")
-    public void room(@PathParam("roomNr") Integer roomNr,
-                     @Suspended final AsyncResponse asyncResponse) {
-        executor.execute(() -> {
-            Optional<Room> room = repository.byRoomNr(roomNr);
+    @PostConstruct
+    public void initialize() {
+        rooms.putIfAbsent(1, new Room("Alan Turing", 1));
+        rooms.putIfAbsent(2, new Room("Kurt Gödel", 2));
+        rooms.putIfAbsent(3, new Room("Bertram Russel", 3));
+        rooms.putIfAbsent(4, new Room("Ada Lovelace", 4));
+    }
 
-            Response response;
-            if (room.isPresent()) {
-                response = Response.ok(room.get()).build();
-            } else {
-                response = Response.status(Response.Status.NOT_FOUND).build();
-            }
+    @Override
+    public Collection<Room> all() {
+        logger.debug("Returning all dummy rooms.");
+        return Collections.unmodifiableCollection(rooms.values());
+    }
 
-            asyncResponse.resume(response);
-        });
+    @Override
+    public Optional<Room> byRoomNr(int roomNr) {
+        logger.debug("Find dummy room by Nr={}.", roomNr);
+        return Optional.ofNullable(rooms.get(roomNr));
     }
 }

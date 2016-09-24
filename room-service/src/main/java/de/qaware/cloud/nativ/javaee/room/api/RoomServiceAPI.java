@@ -24,19 +24,20 @@
 package de.qaware.cloud.nativ.javaee.room.api;
 
 import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
 
 /**
  * The JAX-RS application for the room service.
- *
- * @author lreimer
  */
 @ApplicationPath("api")
 public class RoomServiceAPI extends ResourceConfig {
     public RoomServiceAPI() {
         super(RoomResource.class);
+
+        register(JacksonFeature.class);
         register(LoggingFilter.class);
     }
 }

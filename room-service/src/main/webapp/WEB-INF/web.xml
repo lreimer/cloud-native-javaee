@@ -5,23 +5,4 @@
 
     <distributable/>
 
-    <filter>
-        <filter-name>RoomServiceUI</filter-name>
-        <filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
-        <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
-            <param-value>de.qaware.cloud.nativ.javaee.room.ui.RoomServiceUI</param-value>
-        </init-param>
-        <!-- pass to next filter if Jersey/App returns 404 -->
-        <init-param>
-            <param-name>jersey.config.servlet.filter.forwardOn404</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>RoomServiceUI</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
 </web-app>

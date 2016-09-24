@@ -21,25 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.room.ui;
+package de.qaware.cloud.nativ.javaee.room.api;
 
-import org.glassfish.jersey.filter.LoggingFilter;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
-
-import javax.ws.rs.ApplicationPath;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
- * The JAX-RS application for the room service UI.
+ * The room repository interface definition. We will add several possible
+ * alternative repository implementations.
  */
-@ApplicationPath("ui")
-public class RoomServiceUI extends ResourceConfig {
-    public RoomServiceUI() {
-        super(RoomPages.class);
+public interface RoomRepository {
+    /**
+     * Find and return all rooms.
+     *
+     * @return a collection of rooms
+     */
+    Collection<Room> all();
 
-        register(JspMvcFeature.class);
-        register(LoggingFilter.class);
-
-        property(JspMvcFeature.TEMPLATE_BASE_PATH, "/WEB-INF/pages");
-    }
+    /**
+     * @param roomNr the room number
+     * @return the found room or NULL
+     */
+    Optional<Room> byRoomNr(int roomNr);
 }
