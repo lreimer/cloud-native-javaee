@@ -29,38 +29,42 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
  * A dummy device repository that contains some static devices.
- *
- * @author lreimer
  */
 @ApplicationScoped
 public class DummyDeviceRepository implements DeviceRepository {
 
     private final ConcurrentMap<String, Device> devices = new ConcurrentHashMap<>();
 
+    private final Logger logger;
+
     @Inject
-    private Logger logger;
+    public DummyDeviceRepository(final Logger logger) {
+        this.logger = logger;
+    }
 
     @PostConstruct
     public void initialize() {
         devices.putIfAbsent("0815", new Device("0815", 1));
         devices.putIfAbsent("4711", new Device("4711", 2));
         devices.putIfAbsent("2305", new Device("2305", 3));
+        devices.putIfAbsent("1234", new Device("1234", 4));
     }
 
     @Override
-    public Collection<Device> findAll() {
+    public Collection<Device> all() {
         logger.debug("Returning all dummy devices.");
-        return devices.values();
+        return Collections.unmodifiableCollection(devices.values());
     }
 
     @Override
-    public Optional<Device> findById(String deviceId) {
+    public Optional<Device> byDeviceId(String deviceId) {
         logger.debug("Find dummy device by ID={}.", deviceId);
         return Optional.ofNullable(devices.get(deviceId));
     }

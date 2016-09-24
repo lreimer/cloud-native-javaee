@@ -27,8 +27,6 @@ import java.io.Serializable;
 
 /**
  * The device event for a given room number and card ID.
- *
- * @author lreimer
  */
 public class DeviceEvent implements Serializable {
 

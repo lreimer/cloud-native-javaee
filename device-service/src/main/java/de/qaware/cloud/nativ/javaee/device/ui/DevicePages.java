@@ -32,8 +32,6 @@ import javax.ws.rs.core.MediaType;
 
 /**
  * A special Jersey MVC resource to render the device service pages.
- *
- * @author lreimer
  */
 @Path("/")
 @Produces(MediaType.TEXT_HTML)

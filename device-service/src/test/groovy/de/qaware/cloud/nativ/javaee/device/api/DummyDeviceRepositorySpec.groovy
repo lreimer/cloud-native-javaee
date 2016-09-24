@@ -21,37 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api;
+package de.qaware.cloud.nativ.javaee.device.api
 
-import fish.payara.micro.cdi.Outbound;
-import org.slf4j.Logger;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
+import org.slf4j.Logger
+import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
- * The transmitter bean to fire outbound events. With CDI 2.0 we could make
- * them asynchronous, don't know with Payara outbound events.
+ * A simple Spock specification to test the dummy repository.
  */
-@ApplicationScoped
-public class DeviceEventTransmitter {
+class DummyDeviceRepositorySpec extends Specification {
 
-    @Inject
-    private Logger logger;
+    DummyDeviceRepository repository
+    Logger logger
 
-    @Inject
-    @Outbound
-    private Event<DeviceEvent> events;
+    void setup() {
+        logger = Mock(Logger)
+        repository = new DummyDeviceRepository(logger)
+        repository.initialize()
+    }
 
-    /**
-     * Fire a devie event for the given room number and card ID.
-     *
-     * @param roomNr the room number
-     * @param cardId the card ID
-     */
-    public void fire(int roomNr, String cardId) {
-        logger.debug("Fire DeviceEvent for roomNr={} and cardId={}.", roomNr, cardId);
-        events.fire(new DeviceEvent(roomNr, cardId));
+    def "Find all dummy devices."() {
+        expect:
+        repository.all().size() == 4
+    }
+
+    @Unroll
+    def "Find device by ID #deviceId"() {
+        expect:
+        repository.byDeviceId(deviceId).isPresent() == found
+
+        where:
+        deviceId || found
+        "1234"   || true
+        "0815"   || true
+        "4711"   || true
+        "????"   || false
     }
 }

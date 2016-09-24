@@ -29,8 +29,6 @@ import java.util.Optional;
 /**
  * The device repository interface definition. We will add several possible
  * alternative repository implementations.
- *
- * @author lreimer
  */
 public interface DeviceRepository {
     /**
@@ -38,7 +36,7 @@ public interface DeviceRepository {
      *
      * @return all known devices
      */
-    Collection<Device> findAll();
+    Collection<Device> all();
 
     /**
      * Returns the device identified by given device ID.
@@ -46,5 +44,5 @@ public interface DeviceRepository {
      * @param deviceId the device ID
      * @return an optional for the device
      */
-    Optional<Device> findById(String deviceId);
+    Optional<Device> byDeviceId(String deviceId);
 }

@@ -25,8 +25,6 @@ package de.qaware.cloud.nativ.javaee.device.api;
 
 /**
  * The device model POJO.
- *
- * @author lreimer
  */
 public class Device {
 

@@ -24,19 +24,18 @@
 package de.qaware.cloud.nativ.javaee.device.api;
 
 import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
 
 /**
  * The JAX-RS application for the device service API.
- *
- * @author lreimer
  */
 @ApplicationPath("api")
 public class DeviceServiceAPI extends ResourceConfig {
     public DeviceServiceAPI() {
-        super(DeviceResource.class);
+        super(JacksonFeature.class, DeviceResource.class);
         register(LoggingFilter.class);
     }
 }

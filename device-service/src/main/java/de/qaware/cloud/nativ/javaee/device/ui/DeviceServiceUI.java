@@ -27,11 +27,12 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
 
+import javax.ws.rs.ApplicationPath;
+
 /**
  * The JAX-RS application for the device service UI.
- *
- * @author lreimer
  */
+@ApplicationPath("ui")
 public class DeviceServiceUI extends ResourceConfig {
     public DeviceServiceUI() {
         super(DevicePages.class);
