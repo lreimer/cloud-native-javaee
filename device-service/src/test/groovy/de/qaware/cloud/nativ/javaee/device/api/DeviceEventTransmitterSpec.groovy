@@ -21,39 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api;
+package de.qaware.cloud.nativ.javaee.device.api
 
-import java.io.Serializable;
+import org.slf4j.Logger
+import spock.lang.Specification
+
+import javax.enterprise.event.Event
 
 /**
- * The device event for a given room number and card ID.
+ * Spock spec for the device event transmitter. Basically test that
+ * the JSON serialization is working correctly.
  */
-public class DeviceEvent implements Serializable {
+class DeviceEventTransmitterSpec extends Specification {
 
-    private int roomNr;
-    private String cardId;
+    DeviceEventTransmitter transmitter
 
-    public DeviceEvent() {
+    def setup() {
+        transmitter = new DeviceEventTransmitter()
+        transmitter.events = Mock(Event)
+        transmitter.logger = Mock(Logger)
     }
 
-    public DeviceEvent(int roomNr, String cardId) {
-        this.roomNr = roomNr;
-        this.cardId = cardId;
-    }
+    def "Check JSON serialization on firing event"() {
+        when:
+        transmitter.fire(23, '1234567890')
 
-    public int getRoomNr() {
-        return roomNr;
-    }
-
-    public void setRoomNr(int roomNr) {
-        this.roomNr = roomNr;
-    }
-
-    public String getCardId() {
-        return cardId;
-    }
-
-    public void setCardId(String cardId) {
-        this.cardId = cardId;
+        then:
+        1 * transmitter.events.fire('{"roomNr":23,"cardId":"1234567890"}')
+        1 * transmitter.logger.debug(_, 23, '1234567890')
     }
 }

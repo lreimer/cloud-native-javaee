@@ -23,12 +23,17 @@
  */
 package de.qaware.cloud.nativ.javaee.device.api;
 
+import de.qaware.cloud.nativ.javaee.common.api.Qualified;
 import fish.payara.micro.cdi.Outbound;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonWriter;
+import java.io.StringWriter;
 
 /**
  * The transmitter bean to fire outbound events. With CDI 2.0 we could make
@@ -41,8 +46,9 @@ public class DeviceEventTransmitter {
     private Logger logger;
 
     @Inject
+    @Qualified("DeviceEvent")
     @Outbound
-    private Event<DeviceEvent> events;
+    private Event<String> events;
 
     /**
      * Fire a devie event for the given room number and card ID.
@@ -52,6 +58,28 @@ public class DeviceEventTransmitter {
      */
     public void fire(int roomNr, String cardId) {
         logger.debug("Fire DeviceEvent for roomNr={} and cardId={}.", roomNr, cardId);
-        events.fire(new DeviceEvent(roomNr, cardId));
+        events.fire(toJson(roomNr, cardId));
+    }
+
+    private String toJson(int roomNr, String cardId) {
+        JsonObject event = Json.createObjectBuilder()
+                .add("roomNr", roomNr)
+                .add("cardId", cardId)
+                .build();
+
+        StringWriter writer = new StringWriter();
+        try (JsonWriter jsonWriter = Json.createWriter(writer)) {
+            jsonWriter.writeObject(event);
+        }
+
+        return writer.toString();
+    }
+
+    void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    void setEvents(Event<String> events) {
+        this.events = events;
     }
 }

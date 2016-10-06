@@ -5,5 +5,7 @@ include ':ribbon-jsr346'
 
 include ':logging-jsr346'
 
+include ':common-api'
 include ':device-service'
+include ':display-service'
 include ':room-service'

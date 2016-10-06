@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.room;
+package de.qaware.cloud.nativ.javaee.display;
 
 import fish.payara.micro.BootstrapException;
 import fish.payara.micro.PayaraMicro;
@@ -36,10 +36,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * The room service application starts a Payara micro edition instance and
+ * The display service application starts a Payara micro edition instance and
  * adds the web/ directory for deployment scanning.
  */
-public class RoomApplication {
+public class DisplayApplication {
     /**
      * Pass all command line arguments to Payara micro server. Do not
      * forget to set PORT environment variable.
@@ -54,8 +54,8 @@ public class RoomApplication {
         Optional<String> port = Optional.ofNullable(System.getenv("PORT"));
 
         PayaraMicro.getInstance()
-                .setInstanceName("RoomService-" + UUID.randomUUID().toString())
-                .setHttpPort(Integer.valueOf(port.orElse("18082")))
+                .setInstanceName("DisplayService-" + UUID.randomUUID().toString())
+                .setHttpPort(Integer.valueOf(port.orElse("18083")))
                 .setHttpAutoBind(true)
                 .setAutoBindRange(10)
                 .setPrintLogo(false)

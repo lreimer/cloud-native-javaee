@@ -6,6 +6,8 @@ dependencies {
     runtime 'org.slf4j:slf4j-jdk14:1.7.12'
     runtime project(':logging-jsr346')
 
+    compile project(':common-api')
+
     providedCompile 'fish.payara.extras:payara-micro:4.1.1.163'
 }
 

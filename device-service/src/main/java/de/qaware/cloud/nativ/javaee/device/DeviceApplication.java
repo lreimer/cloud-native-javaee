@@ -55,9 +55,9 @@ public class DeviceApplication {
 
         PayaraMicro.getInstance()
                 .setInstanceName("DeviceService-" + UUID.randomUUID().toString())
-                .setHttpPort(Integer.valueOf(port.orElse("18080")))
+                .setHttpPort(Integer.valueOf(port.orElse("18081")))
                 .setHttpAutoBind(true)
-                .setAutoBindRange(20)
+                .setAutoBindRange(10)
                 .setPrintLogo(false)
                 .setDeploymentDir(getDeploymentDir())
                 .bootStrap();

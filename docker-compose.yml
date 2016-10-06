@@ -18,3 +18,32 @@ traefik:
     - "8080:8080"
     - "80:80"
 
+device:
+  image: "device-service:1.0.0"
+  hostname: device-service
+  environment:
+      JAVA_OPTS: -Xmx128m
+  links:
+    - consul
+  ports:
+    - "18081:18081"
+
+room:
+  image: "room-service:1.0.0"
+  hostname: room-service
+  environment:
+      JAVA_OPTS: -Xmx128m
+  links:
+    - consul
+  ports:
+    - "18082:18082"
+
+display:
+  image: "display-service:1.0.0"
+  hostname: display-service
+  environment:
+      JAVA_OPTS: -Xmx128m
+  links:
+    - consul
+  ports:
+    - "18083:18083"

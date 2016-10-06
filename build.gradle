@@ -72,20 +72,25 @@ subprojects {
             html.enabled = true
         }
     }
+}
 
-    task buildDockerImage(type: DockerBuildImage) {
-        inputDir = projectDir
-        noCache = false
-        remove = true
-        tag = "$project.name:$version"
-    }
+// configure Docker tasks for service projects
+subprojects.findAll { it.name.endsWith('-service') }.each { p ->
+    configure(p) {
+        task buildDockerImage(type: DockerBuildImage) {
+            inputDir = projectDir
+            noCache = false
+            remove = true
+            tag = "$project.name:$version"
+        }
 
-    task removeDockerImage(type: DockerRemoveImage) {
-        imageId = "$project.name:$version"
-    }
+        task removeDockerImage(type: DockerRemoveImage) {
+            imageId = "$project.name:$version"
+        }
 
-    task pushDockerImage(type: DockerPushImage) {
-        imageName = "qaware-oss-docker-registry.bintray.io/lreimer/$project.name:$version"
+        task pushDockerImage(type: DockerPushImage) {
+            imageName = "qaware-oss-docker-registry.bintray.io/lreimer/$project.name:$version"
+        }
     }
 }
 

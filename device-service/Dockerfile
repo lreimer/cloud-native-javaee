@@ -7,6 +7,6 @@ ADD build/distributions/device-service-1.0.0.tar /app
 WORKDIR /app/device-service-1.0.0
 RUN chmod 755 bin/device-service
 
-EXPOSE 18080
+EXPOSE 18081
 
 CMD ./bin/device-service

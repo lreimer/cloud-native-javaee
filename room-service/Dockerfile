@@ -7,6 +7,6 @@ ADD build/distributions/room-service-1.0.0.tar /app
 WORKDIR /app/room-service-1.0.0
 RUN chmod 755 bin/room-service
 
-EXPOSE 18080
+EXPOSE 18082
 
 CMD ./bin/room-service
