@@ -35,7 +35,7 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("ui")
 public class RoomServiceUI extends ResourceConfig {
     public RoomServiceUI() {
-        super(RoomPages.class);
+        super(RoomPagesResource.class);
 
         register(JspMvcFeature.class);
         register(LoggingFilter.class);

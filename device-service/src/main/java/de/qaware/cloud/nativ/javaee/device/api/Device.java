@@ -28,11 +28,8 @@ package de.qaware.cloud.nativ.javaee.device.api;
  */
 public class Device {
 
-    private String deviceId;
-    private int roomNr;
-
-    public Device() {
-    }
+    private final String deviceId;
+    private final int roomNr;
 
     public Device(String deviceId, int roomNr) {
         this.deviceId = deviceId;
@@ -43,16 +40,8 @@ public class Device {
         return deviceId;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
     public int getRoomNr() {
         return roomNr;
-    }
-
-    public void setRoomNr(int roomNr) {
-        this.roomNr = roomNr;
     }
 
 }

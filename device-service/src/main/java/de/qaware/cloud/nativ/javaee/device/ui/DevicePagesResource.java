@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.room.ui;
+package de.qaware.cloud.nativ.javaee.device.ui;
 
 import org.glassfish.jersey.server.mvc.Template;
 
@@ -31,14 +31,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * A special Jersey MVC resource to render the room service pages.
+ * A special Jersey MVC resource to render the device service pages.
  */
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
-public class RoomPages {
+public class DevicePagesResource {
     @GET
     @Template(name = "index.jsp")
     public String index() {
-        return "Room Service";
+        return "Device Service";
     }
 }

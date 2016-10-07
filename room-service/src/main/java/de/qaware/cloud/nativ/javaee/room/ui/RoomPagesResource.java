@@ -21,33 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api
+package de.qaware.cloud.nativ.javaee.room.ui;
 
-import org.slf4j.Logger
-import spock.lang.Specification
+import org.glassfish.jersey.server.mvc.Template;
 
-import javax.enterprise.event.Event
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 /**
- * Spock spec for the device event transmitter. Basically test that
- * the JSON serialization is working correctly.
+ * A special Jersey MVC resource to render the room service pages.
  */
-class DeviceEventTransmitterSpec extends Specification {
-
-    DeviceEventTransmitter transmitter
-
-    def setup() {
-        transmitter = new DeviceEventTransmitter()
-        transmitter.events = Mock(Event)
-        transmitter.logger = Mock(Logger)
-    }
-
-    def "Check correct firing of device event"() {
-        when:
-        transmitter.fire(23, '1234')
-
-        then:
-        1 * transmitter.events.fire({ it.getRoomNr() == 23 && it.getCardId() == '1234' })
-        1 * transmitter.logger.info(_, 23, '1234')
+@Path("/")
+@Produces(MediaType.TEXT_HTML)
+public class RoomPagesResource {
+    @GET
+    @Template(name = "index.jsp")
+    public String index() {
+        return "Room Service";
     }
 }

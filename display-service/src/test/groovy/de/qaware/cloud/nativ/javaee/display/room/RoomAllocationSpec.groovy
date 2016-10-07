@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api
+package de.qaware.cloud.nativ.javaee.display.room
 
 import org.slf4j.Logger
 import spock.lang.Specification
@@ -29,25 +29,41 @@ import spock.lang.Specification
 import javax.enterprise.event.Event
 
 /**
- * Spock spec for the device event transmitter. Basically test that
- * the JSON serialization is working correctly.
+ * The Spock spec for the room allocation.
  */
-class DeviceEventTransmitterSpec extends Specification {
+class RoomAllocationSpec extends Specification {
 
-    DeviceEventTransmitter transmitter
+    RoomAllocation allocation
 
     def setup() {
-        transmitter = new DeviceEventTransmitter()
-        transmitter.events = Mock(Event)
-        transmitter.logger = Mock(Logger)
+        allocation = new RoomAllocation()
+        allocation.logger = Mock(Logger)
+        allocation.roomEvent = Mock(Event)
     }
 
-    def "Check correct firing of device event"() {
+    def "Check empty allocation size"() {
+        expect:
+        allocation.getAllocation(1) == 0
+    }
+
+    def "Test update once"() {
         when:
-        transmitter.fire(23, '1234')
+        allocation.update(1, '2357')
 
         then:
-        1 * transmitter.events.fire({ it.getRoomNr() == 23 && it.getCardId() == '1234' })
-        1 * transmitter.logger.info(_, 23, '1234')
+        allocation.getAllocation(1) == 1
+        1 * allocation.logger.info(_, '2357', '1')
+        1 * allocation.roomEvent.fire({ it.getAllocation() == 1 })
+    }
+
+    def "Test update twice"() {
+        when:
+        allocation.update(1, '2357')
+        allocation.update(1, '2357')
+
+        then:
+        allocation.getAllocation(1) == 0
+        2 * allocation.logger.info(_, '2357', '1')
+        2 * allocation.roomEvent.fire(_ as RoomAllocationEvent)
     }
 }

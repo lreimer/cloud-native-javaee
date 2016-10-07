@@ -21,33 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api
+package de.qaware.cloud.nativ.javaee.display.device
 
+import de.qaware.cloud.nativ.javaee.common.api.DeviceEvent
+import de.qaware.cloud.nativ.javaee.display.room.RoomAllocation
 import org.slf4j.Logger
 import spock.lang.Specification
 
-import javax.enterprise.event.Event
-
 /**
- * Spock spec for the device event transmitter. Basically test that
- * the JSON serialization is working correctly.
+ * Test spec for the device event receiver implementation.
  */
-class DeviceEventTransmitterSpec extends Specification {
+class DeviceEventReceiverSpec extends Specification {
 
-    DeviceEventTransmitter transmitter
+    DeviceEventReceiver receiver
 
     def setup() {
-        transmitter = new DeviceEventTransmitter()
-        transmitter.events = Mock(Event)
-        transmitter.logger = Mock(Logger)
+        receiver = new DeviceEventReceiver()
+        receiver.logger = Mock(Logger)
+        receiver.roomAllocation = Mock(RoomAllocation)
     }
 
-    def "Check correct firing of device event"() {
+    def "Test receiving of Device events"() {
         when:
-        transmitter.fire(23, '1234')
+        receiver.receive(new DeviceEvent(235, '1234567890'))
 
         then:
-        1 * transmitter.events.fire({ it.getRoomNr() == 23 && it.getCardId() == '1234' })
-        1 * transmitter.logger.info(_, 23, '1234')
+        1 * receiver.logger.info(_, 235, '1234567890')
+        1 * receiver.roomAllocation.update(235, '1234567890')
     }
 }

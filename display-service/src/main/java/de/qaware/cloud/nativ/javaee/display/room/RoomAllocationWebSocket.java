@@ -21,33 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api
+package de.qaware.cloud.nativ.javaee.display.room;
 
-import org.slf4j.Logger
-import spock.lang.Specification
-
-import javax.enterprise.event.Event
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.websocket.OnClose;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
 /**
- * Spock spec for the device event transmitter. Basically test that
- * the JSON serialization is working correctly.
+ * The websocket endpoint for room allocation events.
  */
-class DeviceEventTransmitterSpec extends Specification {
+@ApplicationScoped
+@ServerEndpoint("/events")
+public class RoomAllocationWebSocket {
 
-    DeviceEventTransmitter transmitter
+    @Inject
+    private RoomAllocationSessionHandler handler;
 
-    def setup() {
-        transmitter = new DeviceEventTransmitter()
-        transmitter.events = Mock(Event)
-        transmitter.logger = Mock(Logger)
+    @OnOpen
+    public void open(Session session) {
+        handler.add(session);
     }
 
-    def "Check correct firing of device event"() {
-        when:
-        transmitter.fire(23, '1234')
-
-        then:
-        1 * transmitter.events.fire({ it.getRoomNr() == 23 && it.getCardId() == '1234' })
-        1 * transmitter.logger.info(_, 23, '1234')
+    @OnClose
+    public void close(Session session) {
+        handler.remove(session);
     }
 }

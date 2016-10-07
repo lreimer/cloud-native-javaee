@@ -21,46 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api;
+package de.qaware.cloud.nativ.javaee.display.device;
 
 import de.qaware.cloud.nativ.javaee.common.api.DeviceEvent;
-import fish.payara.micro.cdi.Outbound;
+import de.qaware.cloud.nativ.javaee.display.room.RoomAllocation;
+import fish.payara.micro.cdi.Inbound;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 /**
- * The transmitter bean to fire outbound events. With CDI 2.0 we could make
- * them asynchronous, don't know with Payara outbound events.
+ * This is the receiver class for DeviceEvents sent by the Device service.
+ * We will count how many people are in the room.
  */
 @ApplicationScoped
-public class DeviceEventTransmitter {
+public class DeviceEventReceiver {
 
     @Inject
     private Logger logger;
 
     @Inject
-    @Outbound
-    private Event<DeviceEvent> events;
+    private RoomAllocation roomAllocation;
 
     /**
-     * Fire a devie event for the given room number and card ID.
+     * Event receiver for DeviceEvents. Will process the incoming event JSON structure
+     * and update the room allocation.
      *
-     * @param roomNr the room number
-     * @param cardId the card ID
+     * @param event the device event
      */
-    public void fire(int roomNr, String cardId) {
-        logger.info("Fire DeviceEvent for roomNr={} and cardId={}.", roomNr, cardId);
-        events.fire(new DeviceEvent(roomNr, cardId));
+    public void receive(@Observes @Inbound DeviceEvent event) {
+        logger.info("Received DeviceEvent for roomNr={} and cardId={}.", event.getRoomNr(), event.getCardId());
+        roomAllocation.update(event.getRoomNr(), event.getCardId());
     }
 
     void setLogger(Logger logger) {
         this.logger = logger;
     }
 
-    void setEvents(Event<DeviceEvent> events) {
-        this.events = events;
+    void setRoomAllocation(RoomAllocation roomAllocation) {
+        this.roomAllocation = roomAllocation;
     }
 }

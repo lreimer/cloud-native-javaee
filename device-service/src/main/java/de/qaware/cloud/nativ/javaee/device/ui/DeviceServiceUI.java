@@ -35,7 +35,7 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("ui")
 public class DeviceServiceUI extends ResourceConfig {
     public DeviceServiceUI() {
-        super(DevicePages.class);
+        super(DevicePagesResource.class);
 
         register(JspMvcFeature.class);
         register(LoggingFilter.class);

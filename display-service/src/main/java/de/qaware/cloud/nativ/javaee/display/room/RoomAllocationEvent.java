@@ -21,33 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api
+package de.qaware.cloud.nativ.javaee.display.room;
 
-import org.slf4j.Logger
-import spock.lang.Specification
-
-import javax.enterprise.event.Event
+import javax.json.Json;
+import javax.json.JsonObject;
 
 /**
- * Spock spec for the device event transmitter. Basically test that
- * the JSON serialization is working correctly.
+ * The allocation event holds the name of the room and the current allocation.
  */
-class DeviceEventTransmitterSpec extends Specification {
+public class RoomAllocationEvent {
 
-    DeviceEventTransmitter transmitter
+    private final String roomName;
+    private final int allocation;
 
-    def setup() {
-        transmitter = new DeviceEventTransmitter()
-        transmitter.events = Mock(Event)
-        transmitter.logger = Mock(Logger)
+    /**
+     * Initialize the event with the room name and current allocation.
+     *
+     * @param roomName   the room name
+     * @param allocation the occupancy
+     */
+    public RoomAllocationEvent(String roomName, int allocation) {
+        this.roomName = roomName;
+        this.allocation = allocation;
     }
 
-    def "Check correct firing of device event"() {
-        when:
-        transmitter.fire(23, '1234')
+    public String getRoomName() {
+        return roomName;
+    }
 
-        then:
-        1 * transmitter.events.fire({ it.getRoomNr() == 23 && it.getCardId() == '1234' })
-        1 * transmitter.logger.info(_, 23, '1234')
+    public int getAllocation() {
+        return allocation;
+    }
+
+    /**
+     * Return this instances as JSON representation.
+     *
+     * @return the JSON representatipon
+     */
+    public String toJson() {
+        JsonObject message = Json.createObjectBuilder()
+                .add("roomName", roomName)
+                .add("allocation", allocation)
+                .build();
+        return message.toString();
     }
 }

@@ -21,33 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api
+package de.qaware.cloud.nativ.javaee.display;
 
-import org.slf4j.Logger
-import spock.lang.Specification
+import fish.payara.micro.cdi.ClusteredCDIEventBus;
 
-import javax.enterprise.event.Event
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
 
 /**
- * Spock spec for the device event transmitter. Basically test that
- * the JSON serialization is working correctly.
+ * A SLSB to initialize some important beans on application startup.
  */
-class DeviceEventTransmitterSpec extends Specification {
+@Singleton
+@Startup
+public class DisplayApplicationStartup {
 
-    DeviceEventTransmitter transmitter
+    @Inject
+    private ClusteredCDIEventBus eventBus;
 
-    def setup() {
-        transmitter = new DeviceEventTransmitter()
-        transmitter.events = Mock(Event)
-        transmitter.logger = Mock(Logger)
+    @PostConstruct
+    public void initialize() {
+        eventBus.initialize();
     }
 
-    def "Check correct firing of device event"() {
-        when:
-        transmitter.fire(23, '1234')
-
-        then:
-        1 * transmitter.events.fire({ it.getRoomNr() == 23 && it.getCardId() == '1234' })
-        1 * transmitter.logger.info(_, 23, '1234')
-    }
 }

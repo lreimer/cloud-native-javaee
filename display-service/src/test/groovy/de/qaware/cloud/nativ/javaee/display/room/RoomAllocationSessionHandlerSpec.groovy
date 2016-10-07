@@ -21,33 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.api
+package de.qaware.cloud.nativ.javaee.display.room
 
 import org.slf4j.Logger
 import spock.lang.Specification
 
-import javax.enterprise.event.Event
+import javax.websocket.RemoteEndpoint
+import javax.websocket.Session
 
 /**
- * Spock spec for the device event transmitter. Basically test that
- * the JSON serialization is working correctly.
+ * Basic Spoc sepc for the RoomAllocationSessionHandler.
  */
-class DeviceEventTransmitterSpec extends Specification {
+class RoomAllocationSessionHandlerSpec extends Specification {
 
-    DeviceEventTransmitter transmitter
+    RoomAllocationSessionHandler handler
 
     def setup() {
-        transmitter = new DeviceEventTransmitter()
-        transmitter.events = Mock(Event)
-        transmitter.logger = Mock(Logger)
+        handler = new RoomAllocationSessionHandler()
+        handler.logger = Mock(Logger)
     }
 
-    def "Check correct firing of device event"() {
+    def "Test sending message to session"() {
+        given:
+        def session = Mock(Session)
+        def basic = Mock(RemoteEndpoint.Basic)
+        session.getBasicRemote() >> basic
+        handler.add(session)
+
         when:
-        transmitter.fire(23, '1234')
+        handler.send(new RoomAllocationEvent('1', 5))
 
         then:
-        1 * transmitter.events.fire({ it.getRoomNr() == 23 && it.getCardId() == '1234' })
-        1 * transmitter.logger.info(_, 23, '1234')
+        1 * handler.logger.info(_, _)
+        1 * basic.sendText('{"roomName":"1","allocation":5}')
     }
 }

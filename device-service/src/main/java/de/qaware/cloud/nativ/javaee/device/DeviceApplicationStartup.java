@@ -21,24 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package de.qaware.cloud.nativ.javaee.device.ui;
+package de.qaware.cloud.nativ.javaee.device;
 
-import org.glassfish.jersey.server.mvc.Template;
+import fish.payara.micro.cdi.ClusteredCDIEventBus;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
 
 /**
- * A special Jersey MVC resource to render the device service pages.
+ * A SLSB to initialize some important beans on application startup.
  */
-@Path("/")
-@Produces(MediaType.TEXT_HTML)
-public class DevicePages {
-    @GET
-    @Template(name = "index.jsp")
-    public String index() {
-        return "Device Service";
+@Singleton
+@Startup
+public class DeviceApplicationStartup {
+
+    @Inject
+    private ClusteredCDIEventBus eventBus;
+
+    @PostConstruct
+    public void initialize() {
+        eventBus.initialize();
     }
+
 }
