@@ -1,49 +1,81 @@
-consul:
-  image: consul
-  hostname: consul
-  ports:
-    - "8301:8301"
-    - "8302:8302"
-    - "8500:8500"
-    - "8600:8600"
+version: '2'
 
-traefik:
-  image: traefik
-  hostname: traefik
-  volumes:
-    - ./traefik.toml:/etc/traefik/traefik.toml
-  links:
-    - consul
-  ports:
-    - "8080:8080"
-    - "80:80"
+services:
+  consul:
+    image: consul
+    ports:
+      - "8300:8300"
+      - "8400:8400"
+      - "8500:8500"
+    networks:
+      - bridge-net
+      - overlay-net
 
-device:
-  image: "device-service:1.0.0"
-  hostname: device-service
-  environment:
-      JAVA_OPTS: -Xmx128m
-  links:
-    - consul
-  ports:
-    - "18081:18081"
+  traefik:
+    image: traefik
+    volumes:
+      - ./traefik.toml:/etc/traefik/traefik.toml
+    ports:
+      - "8888:8888"
+      - "80:80"
+    depends_on:
+      - consul
+    links:
+      - consul
+    networks:
+      - bridge-net
+      - overlay-net
 
-room:
-  image: "room-service:1.0.0"
-  hostname: room-service
-  environment:
-      JAVA_OPTS: -Xmx128m
-  links:
-    - consul
-  ports:
-    - "18082:18082"
+  device-service:
+    image: "device-service:1.0.0"
+    environment:
+      - JAVA_OPTS=-Xmx128m
+      - PORT=18081
+      - CONSUL_HOST=consul
+      - CONSUL_PORT=8500
+    ports:
+      - "18081:18081"
+    links:
+      - consul
+    depends_on:
+      - consul
+    networks:
+      - overlay-net
 
-display:
-  image: "display-service:1.0.0"
-  hostname: display-service
-  environment:
-      JAVA_OPTS: -Xmx128m
-  links:
-    - consul
-  ports:
-    - "18083:18083"
+  room-service:
+    image: "room-service:1.0.0"
+    environment:
+      - JAVA_OPTS=-Xmx128m
+      - PORT=18082
+      - CONSUL_HOST=consul
+      - CONSUL_PORT=8500
+    ports:
+      - "18082:18082"
+    links:
+      - consul
+    depends_on:
+      - consul
+    networks:
+      - overlay-net
+
+  display-service:
+    image: "display-service:1.0.0"
+    environment:
+      - JAVA_OPTS=-Xmx128m
+      - PORT=18083
+      - CONSUL_HOST=consul
+      - CONSUL_PORT=8500
+    ports:
+      - "18083:18083"
+    links:
+      - consul
+    depends_on:
+      - consul
+    networks:
+      - overlay-net
+
+networks:
+  bridge-net:
+    driver: bridge
+  overlay-net:
+      driver: overlay
