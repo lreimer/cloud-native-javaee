@@ -19,7 +19,7 @@ public class CustomPropertyFileConfig implements PropertyFileConfig {
 
     @Override
     public String getPropertyFileName() {
-        return "/process-service/conf/application.properties";
+        return "/process-service/config/application.properties";
     }
 
     @Override

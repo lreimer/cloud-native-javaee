@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: payment-service
+  name: payment-service
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: payment-service
+    spec:
+      containers:
+      - image: lreimer/payment-service:1.0
+        name: payment-service
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        volumeMounts:
+        - mountPath: /payment-service/config/
+          name: payment-service-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: payment-service-config-volume
+        configMap:
+          name: payment-service-config

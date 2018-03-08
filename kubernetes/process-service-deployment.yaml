@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: process-service
+  name: process-service
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: process-service
+    spec:
+      containers:
+      - image: lreimer/process-service:1.0
+        name: process-service
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        volumeMounts:
+        - mountPath: /process-service/config/
+          name: process-service-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: process-service-config-volume
+        configMap:
+          name: process-service-config

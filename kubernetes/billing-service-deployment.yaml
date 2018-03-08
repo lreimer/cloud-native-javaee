@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: billing-service
+  name: billing-service
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: billing-service
+    spec:
+      containers:
+      - image: lreimer/billing-service:1.0
+        name: billing-service
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        volumeMounts:
+        - mountPath: /billing-service/config/
+          name: billing-service-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: billing-service-config-volume
+        configMap:
+          name: billing-service-config

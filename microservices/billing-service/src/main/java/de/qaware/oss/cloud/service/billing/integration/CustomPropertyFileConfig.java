@@ -19,7 +19,7 @@ public class CustomPropertyFileConfig implements PropertyFileConfig {
 
     @Override
     public String getPropertyFileName() {
-        return "/billing-service/conf/application.properties";
+        return "/billing-service/config/application.properties";
     }
 
     @Override
