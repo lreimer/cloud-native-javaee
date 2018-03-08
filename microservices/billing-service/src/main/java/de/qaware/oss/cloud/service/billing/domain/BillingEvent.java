@@ -25,4 +25,8 @@ public class BillingEvent {
         EventType eventType = EventType.valueOf(eventTypeValue);
         return new BillingEvent(eventType, payload);
     }
+
+    public BillingEvent transitionTo(EventType eventType) {
+        return new BillingEvent(eventType, this.getPayload());
+    }
 }

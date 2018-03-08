@@ -27,6 +27,9 @@ public class BillingEventHandler {
     @Inject
     private ProcessEventQueue processEventQueue;
 
+    @Inject
+    private BillingEventLogStorage storage;
+
     public void observe(@Observes BillingEvent billingEvent) {
         BillingEvent.EventType eventType = billingEvent.getEventType();
         logger.log(Level.INFO, "{0} for {1}.", new Object[]{eventType, billingEvent.getPayload()});
@@ -34,7 +37,9 @@ public class BillingEventHandler {
         switch (eventType) {
             case ProcessCreated:
                 doSomeSeriousBilling();
-                processEventQueue.publish(BillingInitiated.name(), billingEvent.getPayload());
+                BillingEvent next = billingEvent.transitionTo(BillingInitiated);
+                processEventQueue.publish(next.getEventType().name(), next.getPayload());
+                storage.store(next);
                 break;
             default:
                 logger.log(Level.WARNING, "Unknown EventType {0}.", eventType);

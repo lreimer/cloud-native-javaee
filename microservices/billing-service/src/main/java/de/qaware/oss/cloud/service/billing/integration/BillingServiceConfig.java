@@ -12,7 +12,7 @@ public interface BillingServiceConfig {
     @ConfigProperty(name = "service.name", defaultValue = "Billing Service (Default)")
     String serviceName();
 
-    @ConfigProperty(name = "processing.seconds", defaultValue = "1")
+    @ConfigProperty(name = "processing.seconds", defaultValue = "3")
     int processingSeconds();
 
 }
