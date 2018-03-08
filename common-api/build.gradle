@@ -1,3 +1,0 @@
-dependencies {
-    compile 'fish.payara.extras:payara-micro:4.1.1.164'
-}
