@@ -14,14 +14,14 @@ import javax.sql.DataSource;
  * Try to get a connection to the database to make sure it is still available
  */
 @ApplicationScoped
-public class DatabaseHealthCheck extends NamedHealthCheck {
+public class BillingDbHealthCheck extends NamedHealthCheck {
 
     private final DataSourceHealthChecker healthChecker;
 
     @Resource(lookup = "jdbc/BillingDb")
     private DataSource dataSource;
 
-    protected DatabaseHealthCheck() {
+    protected BillingDbHealthCheck() {
         super("Database");
         healthChecker = new DataSourceHealthChecker();
     }

@@ -21,10 +21,6 @@ public class BillingEvent {
         this.payload = payload;
     }
 
-    public static BillingEvent created(JsonObject payload) {
-        return new BillingEvent(EventType.ProcessCreated, payload);
-    }
-
     public static BillingEvent from(String eventTypeValue, JsonObject payload) {
         EventType eventType = EventType.valueOf(eventTypeValue);
         return new BillingEvent(eventType, payload);

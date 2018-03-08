@@ -17,14 +17,14 @@ import java.io.StringWriter;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "process_event_log")
+@Table(name = "billing_event_log")
 @NoArgsConstructor
 @Getter
 @Setter
 public class BillingEventLog {
     @Id
-    @SequenceGenerator(name = "process_event_log_seq_gen", sequenceName = "process_event_log_seq", allocationSize = 5)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "process_event_log_seq_gen")
+    @SequenceGenerator(name = "billing_event_log_seq_gen", sequenceName = "billing_event_log_seq", allocationSize = 5)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "billing_event_log_seq_gen")
     @Column(name = "id")
     private Long id;
 
