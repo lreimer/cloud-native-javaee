@@ -32,6 +32,14 @@ services:
     networks:
       - jee7net
 
+  process-service:
+    build: ./microservices/process-service
+    image: lreimer/process-service:1.0
+    ports:
+      - "18081:8080"  # the HTTP endpoint
+    networks:
+      - jee7net
+
   process-db:
     image: "postgres:9.6.3"
     environment:
