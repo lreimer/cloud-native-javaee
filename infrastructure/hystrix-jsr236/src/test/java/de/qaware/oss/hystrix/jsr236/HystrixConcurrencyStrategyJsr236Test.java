@@ -57,7 +57,7 @@ public class HystrixConcurrencyStrategyJsr236Test {
         concurrencyStrategy = new HystrixConcurrencyStrategyJsr236();
 
         mtf = mock(ManagedThreadFactory.class);
-        when(rule.getContext().lookup("java:concurrent/test")).thenReturn(mtf);
+        when(rule.getContext().lookup("java:concurrent/testThreadFactory")).thenReturn(mtf);
     }
 
     @Test

@@ -41,8 +41,29 @@ import java.util.concurrent.TimeUnit;
 /**
  * A Hystrix concurrency implementation that uses JSR 236 managed thread factories
  * to construct the thread pool.
- *
- * @author lreimer
+ * <p>
+ * This implementation uses the {@link HystrixThreadPoolKey} to perform a JNDI lookup
+ * to obtain a JEE concurrency {@link ManagedThreadFactory} instance.
+ * <pre>
+ *      "java:concurrent/" + threadPoolKey.name() + "ThreadFactory"
+ * </pre>
+ * <p>
+ * In case you are using Glassfish v4.1 or Payara Fish, you can create the managed thread
+ * factory by using the asadmin command, e.g.
+ * <pre>
+ *      asadmin --user admin --passwordfile=/opt/pwdfile create-managed-thread-factory concurrent/BackendThreadFactory
+ * </pre>
+ * <p>
+ * In you code you can then construct Hystrix command implementations and specify a matching
+ * <pre>
+ *     public class GetStuffHystrixCommand extends HystrixCommand<Stuff> {
+ *          public GetUserHystrixCommand() {
+ *              super(
+ *                  Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("Backend"))
+ *                        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("Backend")))
+ *          }
+ *     }
+ * </pre>
  */
 public class HystrixConcurrencyStrategyJsr236 extends HystrixConcurrencyStrategy {
 
@@ -83,12 +104,19 @@ public class HystrixConcurrencyStrategyJsr236 extends HystrixConcurrencyStrategy
         }
     }
 
+    /**
+     * Thy to get a {@link ManagedThreadFactory} instance using the name of the given {@link HystrixThreadPoolKey}.
+     * The method will per form a JNDI lookup using the "java:concurrent/" + threadPoolKey.name() + "ThreadFactory".
+     *
+     * @param threadPoolKey the thread pool key
+     * @return NULL of not found in JNDI, otherwise the managed thread factory instance
+     */
     private ManagedThreadFactory lookupManagedThreadFactory(HystrixThreadPoolKey threadPoolKey) {
         if (context == null) {
             return null;
         }
 
-        String name = "java:concurrent/" + threadPoolKey.name();
+        String name = "java:concurrent/" + threadPoolKey.name() + "ThreadFactory";
 
         Object thing = null;
         try {
