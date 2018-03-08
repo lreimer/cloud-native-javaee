@@ -9,8 +9,6 @@ spec:
   replicas: 3
   selector:
     io.kompose.service: datagrid-service
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
