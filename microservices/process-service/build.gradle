@@ -37,7 +37,7 @@ dependencies {
     providedCompile 'org.glassfish.jersey.core:jersey-client:2.22.2'
 
     compile 'org.apache.deltaspike.core:deltaspike-core-api:1.8.0'
-    runtime 'org.apache.deltaspike.core:deltaspike-core-impl:1.8.0'
+    compile 'org.apache.deltaspike.core:deltaspike-core-impl:1.8.0'
 
     runtime 'org.slf4j:slf4j-api:1.7.24'
     runtime 'org.slf4j:slf4j-jdk14:1.7.24'

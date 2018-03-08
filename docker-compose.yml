@@ -35,6 +35,8 @@ services:
   process-service:
     build: ./microservices/process-service
     image: lreimer/process-service:1.0
+    environment:
+      - org_apache_deltaspike_ProjectStage=Development
     ports:
       - "18081:8080"  # the HTTP endpoint
     networks:
