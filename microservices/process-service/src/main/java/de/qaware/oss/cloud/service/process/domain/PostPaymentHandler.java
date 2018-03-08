@@ -54,7 +54,7 @@ public class PostPaymentHandler {
         try {
             TimeUnit.SECONDS.sleep(config.processingSeconds());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Could not do some heavy processing.", e);
         }
     }
 }
