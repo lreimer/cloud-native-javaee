@@ -6,8 +6,17 @@ metadata:
   name: message-queue
 spec:
   ports:
-  - name: "jms"
+  - name: "admin"
     port: 8161
     targetPort: 8161
+  - name: "jms"
+    port: 61616
+    targetPort: 61616
+  - name: "mqtt"
+    port: 1883
+    targetPort: 1883
+  - name: "amqp"
+    port: 5672
+    targetPort: 5672
   selector:
     io.kompose.service: message-queue

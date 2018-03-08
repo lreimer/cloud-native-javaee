@@ -12,6 +12,8 @@ services:
     image: rmohr/activemq:5.14.3
     expose:
       - "61616"       # the JMS port
+      - "1883"        # the MQTT port
+      - "5672"        # the AMQP port
     ports:
       - "8161:8161"   # the admin web UI
     networks:

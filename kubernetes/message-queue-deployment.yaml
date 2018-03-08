@@ -16,5 +16,7 @@ spec:
         name: message-queue
         ports:
         - containerPort: 8161
-        resources: {}
+        - containerPort: 1883
+        - containerPort: 5672
+        - containerPort: 61616
       restartPolicy: Always
