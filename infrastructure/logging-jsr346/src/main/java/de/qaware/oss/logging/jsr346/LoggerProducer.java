@@ -23,12 +23,11 @@
  */
 package de.qaware.oss.logging.jsr346;
 
-import org.slf4j.Logger;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+import java.util.logging.Logger;
 
 /**
  * A CDI producer implementation to inject Logger instance.
@@ -38,7 +37,7 @@ import javax.enterprise.inject.spi.InjectionPoint;
 @ApplicationScoped
 public class LoggerProducer {
     /**
-     * The CDI producer method for SLF4J loggers.
+     * The CDI producer method for JULI loggers.
      *
      * @param ip the injection point
      * @return a suitable logger
@@ -47,6 +46,6 @@ public class LoggerProducer {
     @Default
     public Logger createLogger(final InjectionPoint ip) {
         Class declaringClass = ip.getMember().getDeclaringClass();
-        return org.slf4j.LoggerFactory.getLogger(declaringClass);
+        return Logger.getLogger(declaringClass.getName());
     }
 }
