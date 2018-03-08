@@ -1,9 +1,0 @@
-
-dependencies {
-    compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
-
-    compile 'com.netflix.ribbon:ribbon-core:2.2.0'
-    compile 'com.netflix.ribbon:ribbon-loadbalancer:2.2.0'
-
-    testCompile 'org.glassfish.jersey.core:jersey-client:2.22.2'
-}
