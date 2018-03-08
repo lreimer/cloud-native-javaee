@@ -25,4 +25,8 @@ public class PaymentEvent {
         EventType eventType = EventType.valueOf(eventTypeValue);
         return new PaymentEvent(eventType, payload);
     }
+
+    public PaymentEvent transitionTo(EventType eventType) {
+        return new PaymentEvent(eventType, this.getPayload());
+    }
 }

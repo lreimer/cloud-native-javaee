@@ -27,6 +27,9 @@ public class PaymentEventHandler {
     @Inject
     private ProcessEventQueue processEventQueue;
 
+    @Inject
+    private PaymentEventLogStorage storage;
+
     public void observe(@Observes PaymentEvent paymentEvent) {
         PaymentEvent.EventType eventType = paymentEvent.getEventType();
         logger.log(Level.INFO, "{0} for {1}.", new Object[]{eventType, paymentEvent.getPayload()});
@@ -34,7 +37,9 @@ public class PaymentEventHandler {
         switch (eventType) {
             case BillingInitiated:
                 doSomeExpensivePayment();
-                processEventQueue.publish(PaymentReceived.name(), paymentEvent.getPayload());
+                PaymentEvent next = paymentEvent.transitionTo(PaymentReceived);
+                processEventQueue.publish(next.getEventType().name(), next.getPayload());
+                storage.store(next);
                 break;
             default:
                 logger.log(Level.WARNING, "Unknown EventType {0}.", eventType);
@@ -46,7 +51,7 @@ public class PaymentEventHandler {
         try {
             TimeUnit.SECONDS.sleep(config.processingSeconds());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Could not do some expensive payment.", e);
         }
     }
 }

@@ -20,7 +20,7 @@ public interface PaymentServiceConfig {
     @ConfigProperty(name = "service.name", defaultValue = "Payment Service (Default)")
     String serviceName();
 
-    @ConfigProperty(name = "processing.seconds", defaultValue = "1")
+    @ConfigProperty(name = "processing.seconds", defaultValue = "2")
     int processingSeconds();
 
 }
