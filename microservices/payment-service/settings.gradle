@@ -1,0 +1,25 @@
+rootProject.name = 'payment-service'
+
+if (file('../../infrastructure/logging-jsr346').exists()) {
+    includeBuild('../../infrastructure/logging-jsr346') {
+        dependencySubstitution {
+            substitute module('de.qaware.oss.logging:logging-jsr346') with project(':')
+        }
+    }
+}
+
+if (file('../../infrastructure/hystrix-jsr236').exists()) {
+    includeBuild('../../infrastructure/hystrix-jsr236') {
+        dependencySubstitution {
+            substitute module('de.qaware.oss.hystrix:hystrix-jsr236') with project(':')
+        }
+    }
+}
+
+if (file('../../infrastructure/metrics-jsr340').exists()) {
+    includeBuild('../../infrastructure/metrics-jsr340') {
+        dependencySubstitution {
+            substitute module('de.qaware.oss.metrics:metrics-jsr340') with project(':')
+        }
+    }
+}
