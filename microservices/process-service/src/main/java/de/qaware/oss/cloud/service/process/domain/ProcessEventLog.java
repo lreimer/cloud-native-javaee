@@ -91,7 +91,7 @@ public class ProcessEventLog {
                 .toString();
     }
 
-    static ProcessEventLog processEventLog(ProcessEvent event) {
+    public static ProcessEventLog processEventLog(ProcessEvent event) {
         ProcessEventLog eventLog = new ProcessEventLog();
         eventLog.setProcessId(event.getProcessId());
         eventLog.setEventType(event.getEventType());

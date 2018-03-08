@@ -46,6 +46,7 @@ public class PostPaymentHandler {
                 break;
             default:
                 logger.log(Level.WARNING, "Unknown EventType {0}.", eventType);
+                break;
         }
     }
 
