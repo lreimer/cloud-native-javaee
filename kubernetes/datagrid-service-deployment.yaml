@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: datagrid-service
+    hazelcast: enabled
+  name: datagrid-service
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: datagrid-service
+        hazelcast: enabled
+    spec:
+      containers:
+      - image: lreimer/datagrid-service:1.0
+        name: datagrid-service
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        volumeMounts:
+        - mountPath: /opt/payara/config/
+          name: datagrid-service-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: datagrid-service-config-volume
+        configMap:
+          name: datagrid-service-config

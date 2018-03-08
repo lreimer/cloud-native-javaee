@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: payment-db
+  name: payment-db
+spec:
+  ports:
+  - name: "jdbc"
+    port: 5432
+    targetPort: 5432
+  selector:
+    io.kompose.service: payment-db

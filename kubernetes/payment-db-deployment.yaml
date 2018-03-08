@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: payment-db
+  name: payment-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        io.kompose.service: payment-db
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_PASSWORD
+          value: 12qwasyx
+        - name: POSTGRES_USER
+          value: payment
+        image: postgres:9.6.3
+        name: payment-db
+        ports:
+        - containerPort: 5432
+      restartPolicy: Always

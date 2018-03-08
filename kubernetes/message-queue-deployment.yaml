@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: message-queue
+  name: message-queue
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        io.kompose.service: message-queue
+    spec:
+      containers:
+      - image: rmohr/activemq:5.14.3
+        name: message-queue
+        ports:
+        - containerPort: 8161
+        resources: {}
+      restartPolicy: Always
