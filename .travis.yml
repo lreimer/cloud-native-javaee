@@ -20,6 +20,8 @@ before_install:
   - chmod +x infrastructure/metrics-jsr340/gradlew
   - chmod +x microservices/datagrid-service/gradlew
   - chmod +x microservices/process-service/gradlew
+  - chmod +x microservices/billing-service/gradlew
+  - chmod +x microservices/payment-service/gradlew
 
 jobs:
   include:
@@ -34,3 +36,7 @@ jobs:
       script: ./microservices/datagrid-service/gradlew build
     - stage: Build Microservices
       script: ./microservices/process-service/gradlew build
+    - stage: Build Microservices
+      script: ./microservices/billing-service/gradlew build
+    - stage: Build Microservices
+      script: ./microservices/payment-service/gradlew build

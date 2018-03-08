@@ -39,6 +39,35 @@ services:
       - org_apache_deltaspike_ProjectStage=Development
     ports:
       - "18081:8080"  # the HTTP endpoint
+    depends_on:
+      - datagrid-service
+      - process-db
+    networks:
+      - jee7net
+
+  billing-service:
+    build: ./microservices/billing-service
+    image: lreimer/billing-service:1.0
+    environment:
+      - org_apache_deltaspike_ProjectStage=Development
+    ports:
+      - "18081:8080"  # the HTTP endpoint
+    depends_on:
+      - datagrid-service
+      - billing-db
+    networks:
+      - jee7net
+
+  payment-service:
+    build: ./microservices/payment-service
+    image: lreimer/payment-service:1.0
+    environment:
+      - org_apache_deltaspike_ProjectStage=Development
+    ports:
+      - "18081:8080"  # the HTTP endpoint
+    depends_on:
+      - datagrid-service
+      - payment-db
     networks:
       - jee7net
 
