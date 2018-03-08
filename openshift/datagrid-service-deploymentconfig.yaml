@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    io.kompose.service: datagrid-service
+    hazelcast: enabled
+  name: datagrid-service
+spec:
+  replicas: 3
+  selector:
+    io.kompose.service: datagrid-service
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: datagrid-service
+        hazelcast: enabled
+    spec:
+      containers:
+      - image: ' '
+        name: datagrid-service
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/payara/config/
+          name: datagrid-service-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: datagrid-service-config-volume
+        configMap:
+          name: datagrid-service-config
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - datagrid-service
+      from:
+        kind: ImageStreamTag
+        name: datagrid-service:1.0
+    type: ImageChange
