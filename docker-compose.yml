@@ -51,7 +51,7 @@ services:
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     ports:
-      - "18081:8080"  # the HTTP endpoint
+      - "18082:8080"  # the HTTP endpoint
     depends_on:
       - datagrid-service
       - billing-db
@@ -64,7 +64,7 @@ services:
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     ports:
-      - "18081:8080"  # the HTTP endpoint
+      - "18083:8080"  # the HTTP endpoint
     depends_on:
       - datagrid-service
       - payment-db
