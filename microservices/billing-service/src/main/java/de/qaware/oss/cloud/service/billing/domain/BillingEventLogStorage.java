@@ -10,7 +10,7 @@ import java.util.Collection;
 import static de.qaware.oss.cloud.service.billing.domain.BillingEventLog.billingEventLog;
 
 @Stateless
-@Transactional(Transactional.TxType.REQUIRED)
+@Transactional(Transactional.TxType.REQUIRES_NEW)
 public class BillingEventLogStorage {
 
     @PersistenceContext
@@ -18,6 +18,7 @@ public class BillingEventLogStorage {
 
     public void store(@Observes BillingEvent billingEvent) {
         entityManager.persist(billingEventLog(billingEvent));
+        entityManager.flush();
     }
 
     public Collection<BillingEventLog> all() {

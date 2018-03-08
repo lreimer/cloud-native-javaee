@@ -10,7 +10,7 @@ import java.util.Collection;
 import static de.qaware.oss.cloud.service.payment.domain.PaymentEventLog.paymentEventLog;
 
 @Stateless
-@Transactional(Transactional.TxType.REQUIRED)
+@Transactional(Transactional.TxType.REQUIRES_NEW)
 public class PaymentEventLogStorage {
 
     @PersistenceContext
@@ -18,6 +18,7 @@ public class PaymentEventLogStorage {
 
     public void store(@Observes PaymentEvent paymentEvent) {
         entityManager.persist(paymentEventLog(paymentEvent));
+        entityManager.flush();
     }
 
     public Collection<PaymentEventLog> all() {
