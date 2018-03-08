@@ -1,81 +1,53 @@
-version: '2'
+version: '3'
 
 services:
-  consul:
-    image: consul
-    ports:
-      - "8300:8300"
-      - "8400:8400"
-      - "8500:8500"
-    networks:
-      - bridge-net
-      - overlay-net
-
-  traefik:
-    image: traefik
+  portainer:
+    image: portainer/portainer
     volumes:
-      - ./traefik.toml:/etc/traefik/traefik.toml
+    - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
-      - "8888:8888"
-      - "80:80"
-    depends_on:
-      - consul
-    links:
-      - consul
-    networks:
-      - bridge-net
-      - overlay-net
+    - "9000:9000"
 
-  device-service:
-    image: "device-service:1.0.0"
-    environment:
-      - JAVA_OPTS=-Xmx128m
-      - PORT=18081
-      - CONSUL_HOST=consul
-      - CONSUL_PORT=8500
+  message-queue:
+    image: rmohr/activemq:5.14.3
+    expose:
+      - "61616"       # the JMS port
     ports:
-      - "18081:18081"
-    links:
-      - consul
-    depends_on:
-      - consul
+      - "8161:8161"   # the admin web UI
     networks:
-      - overlay-net
+      - jee7net
 
-  room-service:
-    image: "room-service:1.0.0"
+  process-db:
+    image: "postgres:9.6.3"
     environment:
-      - JAVA_OPTS=-Xmx128m
-      - PORT=18082
-      - CONSUL_HOST=consul
-      - CONSUL_PORT=8500
+    - POSTGRES_USER=process
+    - POSTGRES_PASSWORD=12qwasyx
     ports:
-      - "18082:18082"
-    links:
-      - consul
-    depends_on:
-      - consul
+    - "15432:5432"
     networks:
-      - overlay-net
+    - jee7net
 
-  display-service:
-    image: "display-service:1.0.0"
+  billing-db:
+    image: "postgres:9.6.3"
     environment:
-      - JAVA_OPTS=-Xmx128m
-      - PORT=18083
-      - CONSUL_HOST=consul
-      - CONSUL_PORT=8500
+    - POSTGRES_USER=billing
+    - POSTGRES_PASSWORD=12qwasyx
     ports:
-      - "18083:18083"
-    links:
-      - consul
-    depends_on:
-      - consul
+    - "25432:5432"
     networks:
-      - overlay-net
+    - jee7net
+
+  payment-db:
+    image: "postgres:9.6.3"
+    environment:
+    - POSTGRES_USER=payment
+    - POSTGRES_PASSWORD=12qwasyx
+    ports:
+    - "35432:5432"
+    networks:
+    - jee7net
 
 networks:
-  bridge-net:
-    driver: bridge
-  overlay-net:
-      driver: overlay
+  networks:
+    jee7net:
+      driver: bridge
