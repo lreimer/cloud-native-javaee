@@ -2,6 +2,7 @@ package de.qaware.oss.cloud.service.process.boundary;
 
 import com.codahale.metrics.annotation.Timed;
 import de.qaware.oss.cloud.service.process.integration.ProcessServiceConfig;
+import org.apache.deltaspike.core.api.projectstage.ProjectStage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,12 +20,16 @@ import javax.ws.rs.core.Response;
 public class ConfigResource {
 
     @Inject
+    private ProjectStage projectStage;
+
+    @Inject
     private ProcessServiceConfig config;
 
     @GET
     @Timed
     public Response config() {
         JsonObject result = Json.createObjectBuilder()
+                .add("projectStage", projectStage.toString())
                 .add("serviceName", config.serviceName())
                 .add("processingSeconds", config.processingSeconds())
                 .build();
