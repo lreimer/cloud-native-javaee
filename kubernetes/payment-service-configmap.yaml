@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-service-config
+data:
+  application.properties: |
+    service.name=Payment Service (Kubernetes)
+    processing.seconds=3
