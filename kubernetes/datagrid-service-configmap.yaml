@@ -13,8 +13,8 @@ data:
             <property name="hazelcast.discovery.enabled">true</property>
         </properties>
         <group>
-            <name>dev</name>
-            <password>dev-pass</password>
+            <name>payara</name>
+            <password>payara-pass</password>
         </group>
         <network>
             <join>
