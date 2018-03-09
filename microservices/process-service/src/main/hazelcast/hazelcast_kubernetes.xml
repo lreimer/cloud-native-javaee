@@ -50,6 +50,6 @@
         <async-backup-count>0</async-backup-count>
     </cache>
 
-    <lite-member enabled="true"/>
+    <lite-member enabled="false"/>
 
 </hazelcast>

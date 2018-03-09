@@ -23,7 +23,7 @@ services:
     build: ./microservices/datagrid-service
     image: lreimer/datagrid-service:1.0
     volumes:
-      - ./microservices/datagrid-service/src/main/docker/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
+      - ./microservices/datagrid-service/src/main/hazelcast/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
     expose:
       - "5701"        # the outbound Hazelcast port
       - "54327"       # the multicast Hazelcast port
@@ -34,7 +34,7 @@ services:
 
   process-service:
     build: ./microservices/process-service
-    image: lreimer/process-service:1.0
+    image: lreimer/process-service:1.1
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     expose:
@@ -50,7 +50,7 @@ services:
 
   billing-service:
     build: ./microservices/billing-service
-    image: lreimer/billing-service:1.0
+    image: lreimer/billing-service:1.1
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     expose:
@@ -60,13 +60,14 @@ services:
       - "18082:8080"  # the HTTP endpoint
     depends_on:
       - datagrid-service
+      - process-service
       - billing-db
     networks:
       - jee7net
 
   payment-service:
     build: ./microservices/payment-service
-    image: lreimer/payment-service:1.0
+    image: lreimer/payment-service:1.1
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     expose:
@@ -76,6 +77,7 @@ services:
       - "18083:8080"  # the HTTP endpoint
     depends_on:
       - datagrid-service
+      - process-service
       - payment-db
     networks:
       - jee7net

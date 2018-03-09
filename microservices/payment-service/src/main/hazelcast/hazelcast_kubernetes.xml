@@ -45,6 +45,11 @@
         <async-backup-count>0</async-backup-count>
     </cache>
 
-    <lite-member enabled="false"/>
+    <cache name="processCache">
+        <backup-count>1</backup-count>
+        <async-backup-count>0</async-backup-count>
+    </cache>
+
+    <lite-member enabled="true"/>
 
 </hazelcast>

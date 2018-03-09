@@ -16,3 +16,5 @@ set resources.jdbc-connection-pool.PostgresPool.is-connection-validation-require
 set resources.jdbc-connection-pool.PostgresPool.fail-all-connections=true
 
 create-managed-thread-factory concurrent/BackendThreadFactory
+
+set-hazelcast-configuration --enabled=true --dynamic=false -j payara/Hazelcast --startport=5701 --multicastport=54327 --clustername=payara --clusterpassword=payara-pass

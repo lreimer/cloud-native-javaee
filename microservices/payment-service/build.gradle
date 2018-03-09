@@ -52,7 +52,16 @@ dependencies {
 
     activemq 'org.apache.activemq:activemq-rar:5.15.3@rar'
     postgresql 'org.postgresql:postgresql:42.2.1'
-    hazelcast 'com.hazelcast:hazelcast-kubernetes:1.1.0'
+
+    // hazelcast 'com.hazelcast:hazelcast-kubernetes:1.1.0'
+    hazelcast(group: 'com.hazelcast', name: 'hazelcast-kubernetes', version: '1.1.0') {
+        exclude module: 'hazelcast'
+        exclude module: 'jackson-annotations'
+        exclude module: 'jackson-core'
+        exclude module: 'jackson-databind'
+        exclude module: 'jackson-module-jaxb-annotations'
+        exclude module: 'validation-api'
+    }
 }
 
 task copyActiveMqLibs(type: Copy) {
