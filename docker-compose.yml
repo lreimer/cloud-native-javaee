@@ -37,6 +37,9 @@ services:
     image: lreimer/process-service:1.0
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+    expose:
+      - "5701"        # the outbound Hazelcast port
+      - "54327"       # the multicast Hazelcast port
     ports:
       - "18081:8080"  # the HTTP endpoint
     depends_on:
@@ -50,6 +53,9 @@ services:
     image: lreimer/billing-service:1.0
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+    expose:
+      - "5701"        # the outbound Hazelcast port
+      - "54327"       # the multicast Hazelcast port
     ports:
       - "18082:8080"  # the HTTP endpoint
     depends_on:
@@ -63,6 +69,9 @@ services:
     image: lreimer/payment-service:1.0
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+    expose:
+      - "5701"        # the outbound Hazelcast port
+      - "54327"       # the multicast Hazelcast port
     ports:
       - "18083:8080"  # the HTTP endpoint
     depends_on:
