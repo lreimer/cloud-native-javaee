@@ -26,17 +26,17 @@ before_install:
 jobs:
   include:
     - stage: Build Infrastructure
-      script: ./infrastructure/logging-jsr346/gradlew build
+      script: cd infrastructure/logging-jsr346/ && ./gradlew build
     - stage: Build Infrastructure
-      script: ./infrastructure/hystrix-jsr236/gradlew build
+      script: cd infrastructure/hystrix-jsr236/ && ./gradlew build
     - stage: Build Infrastructure
-      script: ./infrastructure/metrics-jsr340/gradlew build
+      script: cd infrastructure/metrics-jsr340/ && ./gradlew build
 
     - stage: Build Microservices
-      script: ./microservices/datagrid-service/gradlew build
+      script: cd microservices/datagrid-service/ && ./gradlew build
     - stage: Build Microservices
-      script: ./microservices/process-service/gradlew build
+      script: cd microservices/process-service/ && ./gradlew build
     - stage: Build Microservices
-      script: ./microservices/billing-service/gradlew build
+      script: cd microservices/billing-service/ && ./gradlew build
     - stage: Build Microservices
-      script: ./microservices/payment-service/gradlew build
+      script: cd microservices/payment-service/ && ./gradlew build
