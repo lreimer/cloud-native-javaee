@@ -16,6 +16,10 @@ configurations {
         description = "PostgreSQL dependencies"
         transitive = true
     }
+    hazelcast {
+        description = "Hazelcast dependencies"
+        transitive = true
+    }
 }
 
 dependencies {
@@ -48,6 +52,7 @@ dependencies {
 
     activemq 'org.apache.activemq:activemq-rar:5.15.3@rar'
     postgresql 'org.postgresql:postgresql:42.2.1'
+    hazelcast 'com.hazelcast:hazelcast-kubernetes:1.1.0'
 }
 
 task copyActiveMqLibs(type: Copy) {
@@ -60,4 +65,9 @@ task copyPostgresqlLibs(type: Copy) {
     into "$buildDir/postgresql"
 }
 
-build.dependsOn copyActiveMqLibs, copyPostgresqlLibs
+task copyHazelcastLibs(type: Copy) {
+    from configurations.hazelcast
+    into "$buildDir/hazelcast"
+}
+
+build.dependsOn copyActiveMqLibs, copyPostgresqlLibs, copyHazelcastLibs
