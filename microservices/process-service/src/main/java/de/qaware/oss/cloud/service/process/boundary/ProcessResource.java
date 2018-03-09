@@ -2,17 +2,17 @@ package de.qaware.oss.cloud.service.process.boundary;
 
 import com.codahale.metrics.annotation.Timed;
 import de.qaware.oss.cloud.service.process.domain.ProcessEvent;
+import de.qaware.oss.cloud.service.process.domain.ProcessStatusCache;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.json.JsonObject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +27,9 @@ public class ProcessResource {
     @Inject
     private Event<ProcessEvent> processEvent;
 
+    @Inject
+    private ProcessStatusCache statusCache;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Timed
@@ -37,5 +40,22 @@ public class ProcessResource {
         processEvent.fire(event);
 
         return Response.accepted().build();
+    }
+
+    @GET
+    @Path("/{processId}/status")
+    @Timed
+    public Response process(@PathParam("processId") String processId) {
+        logger.log(Level.INFO, "GET process status for {0}", processId);
+
+        Optional<ProcessEvent.EventType> eventType = statusCache.get(processId);
+        ProcessEvent.EventType status = eventType.orElseThrow(NotFoundException::new);
+
+        JsonObject payload = Json.createObjectBuilder()
+                .add("processId", processId)
+                .add("status", status.name())
+                .build();
+
+        return Response.ok(payload).build();
     }
 }
