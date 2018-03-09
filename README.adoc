@@ -19,8 +19,38 @@ $ ./gradlew clean build
 
 == Running the Cloud Native JEE7 showcase
 
-The showcase can be run on your local machine as well as using Docker, Kubernetes
-and DC/OS.
+=== Locally
+
+The showcase can be run on your local machine as well as using Docker Compose, Minikube
+or Minishift.
+
+```
+$ docker-compose up -d --build
+```
+
+=== Google Container Engine
+
+- Install the gcloud SDK for Mac (or Windows)
+- Make sure you have a project with billing activated as well as the container engine management API
+- Make sure you have `kubectl` installed, either using `gcloud` or using `brew` et.al.
+
+```
+$ gcloud config list project
+$ gcloud config set compute/zone europe-west1-b
+$ gcloud config set container/use_client_certificate False
+
+$ gcloud container clusters create cloud-native-javaee --num-nodes=5 --enable-autoscaling --min-nodes=5 --max-nodes=7
+
+$ gcloud container clusters describe cloud-native-javaee
+
+$ gcloud auth application-default login
+$ kubectl cluster-info
+```
+
+Once you are done, remember to delete the cluster again!
+```
+$ gcloud container clusters delete cloud-native-javaee
+```
 
 
 == References

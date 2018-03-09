@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     io.kompose.service: billing-service
+    hazelcast: enabled
   name: billing-service
 spec:
   replicas: 1
@@ -12,9 +13,10 @@ spec:
     metadata:
       labels:
         io.kompose.service: billing-service
+        hazelcast: enabled
     spec:
       containers:
-      - image: lreimer/billing-service:1.0
+      - image: lreimer/billing-service:1.1
         name: billing-service
         ports:
         - containerPort: 8080

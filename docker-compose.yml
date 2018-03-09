@@ -37,6 +37,8 @@ services:
     image: lreimer/process-service:1.1
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+    volumes:
+      - ./microservices/process-service/src/main/hazelcast/hazelcast_default.xml:/process-service/config/hazelcast.xml
     expose:
       - "5701"        # the outbound Hazelcast port
       - "54327"       # the multicast Hazelcast port
@@ -53,6 +55,8 @@ services:
     image: lreimer/billing-service:1.1
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+    volumes:
+      - ./microservices/billing-service/src/main/hazelcast/hazelcast_default.xml:/billing-service/config/hazelcast.xml
     expose:
       - "5701"        # the outbound Hazelcast port
       - "54327"       # the multicast Hazelcast port
@@ -70,6 +74,8 @@ services:
     image: lreimer/payment-service:1.1
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+    volumes:
+      - ./microservices/payment-service/src/main/hazelcast/hazelcast_default.xml:/payment-service/config/hazelcast.xml
     expose:
       - "5701"        # the outbound Hazelcast port
       - "54327"       # the multicast Hazelcast port

@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     io.kompose.service: process-service
+    hazelcast: enabled
   name: process-service
 spec:
   replicas: 1
@@ -12,9 +13,10 @@ spec:
     metadata:
       labels:
         io.kompose.service: process-service
+        hazelcast: enabled
     spec:
       containers:
-      - image: lreimer/process-service:1.0
+      - image: lreimer/process-service:1.1
         name: process-service
         ports:
         - containerPort: 8080

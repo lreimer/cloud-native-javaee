@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     io.kompose.service: payment-service
+    hazelcast: enabled
   name: payment-service
 spec:
   replicas: 1
@@ -12,9 +13,10 @@ spec:
     metadata:
       labels:
         io.kompose.service: payment-service
+        hazelcast: enabled
     spec:
       containers:
-      - image: lreimer/payment-service:1.0
+      - image: lreimer/payment-service:1.1
         name: payment-service
         ports:
         - containerPort: 8080
