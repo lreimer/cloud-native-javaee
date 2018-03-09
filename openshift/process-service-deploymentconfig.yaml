@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    io.kompose.service: process-service
+  name: process-service
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: process-service
+  template:
+    metadata:
+      labels:
+        io.kompose.service: process-service
+    spec:
+      containers:
+      - image: ' '
+        name: process-service
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        resources: {}
+        volumeMounts:
+        - mountPath: /billing-service/config/
+          name: process-service-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: process-service-config-volume
+        configMap:
+          name: process-service-config
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - process-service
+      from:
+        kind: ImageStreamTag
+        name: process-service:1.0
+    type: ImageChange

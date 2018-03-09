@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  labels:
+    io.kompose.service: process-service
+  name: process-service
+spec:
+  tags:
+  - from:
+      kind: DockerImage
+      name: lreimer/process-service:1.0
+    importPolicy: {}
+    name: "1.0"
+status:
+  dockerImageRepository: ""

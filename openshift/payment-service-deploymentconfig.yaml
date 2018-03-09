@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    io.kompose.service: payment-service
+  name: payment-service
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: payment-service
+  template:
+    metadata:
+      labels:
+        io.kompose.service: payment-service
+    spec:
+      containers:
+      - image: ' '
+        name: payment-service
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        resources: {}
+        volumeMounts:
+        - mountPath: /payment-service/config/
+          name: payment-service-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: payment-service-config-volume
+        configMap:
+          name: payment-service-config
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - payment-service
+      from:
+        kind: ImageStreamTag
+        name: payment-service:1.0
+    type: ImageChange

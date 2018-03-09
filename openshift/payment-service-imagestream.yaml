@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  labels:
+    io.kompose.service: payment-service
+  name: payment-service
+spec:
+  tags:
+  - from:
+      kind: DockerImage
+      name: lreimer/payment-service:1.0
+    importPolicy: {}
+    name: "1.0"
+status:
+  dockerImageRepository: ""
