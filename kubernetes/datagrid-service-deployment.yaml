@@ -21,6 +21,18 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 5701
+        livenessProbe:
+          httpGet:
+            path: /api/application.wadl
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /api/application.wadl
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
         volumeMounts:
         - mountPath: /opt/payara/config/
           name: datagrid-service-config-volume

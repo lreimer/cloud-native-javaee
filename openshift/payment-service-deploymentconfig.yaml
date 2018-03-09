@@ -19,6 +19,18 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 5701
+        livenessProbe:
+          httpGet:
+            path: /admin/ping
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /admin/healthcheck
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
         resources: {}
         volumeMounts:
         - mountPath: /payment-service/config/
