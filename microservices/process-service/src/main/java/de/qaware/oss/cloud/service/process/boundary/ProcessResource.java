@@ -4,15 +4,20 @@ import com.codahale.metrics.annotation.Timed;
 import de.qaware.oss.cloud.service.process.domain.ProcessEvent;
 import de.qaware.oss.cloud.service.process.domain.ProcessStatusCache;
 
+import javax.annotation.Resource;
+import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.*;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,16 +35,23 @@ public class ProcessResource {
     @Inject
     private ProcessStatusCache statusCache;
 
+    @Resource
+    private ManagedExecutorService executorService;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Timed
-    public Response process(JsonObject jsonObject) {
+    public void process(@Suspended AsyncResponse response, JsonObject jsonObject) {
         logger.log(Level.INFO, "POST new process {0}", jsonObject);
 
-        ProcessEvent event = ProcessEvent.created(jsonObject);
-        processEvent.fire(event);
+        response.setTimeout(5, TimeUnit.SECONDS);
+        response.setTimeoutHandler((r) -> r.resume(Response.accepted().build()));
 
-        return Response.accepted().build();
+        executorService.execute(() -> {
+            ProcessEvent event = ProcessEvent.created(jsonObject);
+            processEvent.fire(event);
+            response.resume(Response.accepted(event).build());
+        });
     }
 
     @GET
