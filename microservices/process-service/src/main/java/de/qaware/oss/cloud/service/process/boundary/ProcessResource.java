@@ -50,6 +50,7 @@ public class ProcessResource {
         executorService.execute(() -> {
             ProcessEvent event = ProcessEvent.created(jsonObject);
             processEvent.fire(event);
+
             response.resume(Response.accepted(event).build());
         });
     }
