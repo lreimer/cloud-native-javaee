@@ -34,7 +34,7 @@ services:
 
   process-service:
     build: ./microservices/process-service
-    image: lreimer/process-service:1.1
+    image: lreimer/process-service:1.2
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
@@ -52,7 +52,7 @@ services:
 
   billing-service:
     build: ./microservices/billing-service
-    image: lreimer/billing-service:1.1
+    image: lreimer/billing-service:1.2
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
@@ -71,7 +71,7 @@ services:
 
   payment-service:
     build: ./microservices/payment-service
-    image: lreimer/payment-service:1.1
+    image: lreimer/payment-service:1.2
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
