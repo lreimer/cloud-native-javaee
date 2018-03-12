@@ -3,6 +3,7 @@ kind: DeploymentConfig
 metadata:
   labels:
     io.kompose.service: payment-service
+    hazelcast: enabled
   name: payment-service
 spec:
   replicas: 1
@@ -12,6 +13,7 @@ spec:
     metadata:
       labels:
         io.kompose.service: payment-service
+        hazelcast: enabled
     spec:
       containers:
       - image: ' '
@@ -50,5 +52,5 @@ spec:
       - payment-service
       from:
         kind: ImageStreamTag
-        name: payment-service:1.0
+        name: payment-service:1.2
     type: ImageChange

@@ -16,7 +16,7 @@ spec:
         hazelcast: enabled
     spec:
       containers:
-      - image: lreimer/payment-service:1.1
+      - image: lreimer/payment-service:1.2
         name: payment-service
         ports:
         - containerPort: 8080

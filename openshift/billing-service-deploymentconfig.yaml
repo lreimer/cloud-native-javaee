@@ -3,6 +3,7 @@ kind: DeploymentConfig
 metadata:
   labels:
     io.kompose.service: billing-service
+    hazelcast: enabled
   name: billing-service
 spec:
   replicas: 1
@@ -12,6 +13,7 @@ spec:
     metadata:
       labels:
         io.kompose.service: billing-service
+        hazelcast: enabled
     spec:
       containers:
       - image: ' '
@@ -50,5 +52,5 @@ spec:
       - billing-service
       from:
         kind: ImageStreamTag
-        name: billing-service:1.0
+        name: billing-service:1.2
     type: ImageChange

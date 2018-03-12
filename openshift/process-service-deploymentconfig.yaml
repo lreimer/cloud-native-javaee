@@ -3,6 +3,7 @@ kind: DeploymentConfig
 metadata:
   labels:
     io.kompose.service: process-service
+    hazelcast: enabled
   name: process-service
 spec:
   replicas: 1
@@ -12,6 +13,7 @@ spec:
     metadata:
       labels:
         io.kompose.service: process-service
+        hazelcast: enabled
     spec:
       containers:
       - image: ' '
@@ -50,5 +52,5 @@ spec:
       - process-service
       from:
         kind: ImageStreamTag
-        name: process-service:1.0
+        name: process-service:1.2
     type: ImageChange
