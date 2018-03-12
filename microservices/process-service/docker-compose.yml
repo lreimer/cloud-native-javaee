@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  message-queue:
+    image: rmohr/activemq:5.14.3
+    expose:
+      - "61616"       # the JMS port
+      - "1883"        # the MQTT port
+      - "5672"        # the AMQP port
+    ports:
+      - "8161:8161"   # the admin web UI
+    networks:
+      - jee7net
+
+  process-service:
+    build: .
+    image: lreimer/process-service:1.1
+    environment:
+      - org_apache_deltaspike_ProjectStage=Development
+    volumes:
+      - ./src/main/hazelcast/hazelcast_default.xml:/process-service/config/hazelcast.xml
+    expose:
+      - "5701"        # the outbound Hazelcast port
+      - "54327"       # the multicast Hazelcast port
+    ports:
+      - "18081:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+      - process-db
+    networks:
+      - jee7net
+
+  process-db:
+    image: "postgres:9.6.3"
+    environment:
+      - POSTGRES_USER=process
+      - POSTGRES_PASSWORD=12qwasyx
+    ports:
+      - "15432:5432"
+    networks:
+      - jee7net
+
+networks:
+  jee7net:
+    driver: bridge
