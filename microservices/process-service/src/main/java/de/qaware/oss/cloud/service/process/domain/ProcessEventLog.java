@@ -1,6 +1,6 @@
 package de.qaware.oss.cloud.service.process.domain;
 
-import de.qaware.oss.cloud.service.process.integration.JsonStringConverter;
+import de.qaware.oss.cloud.service.process.integration.JsonObjectConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,11 +9,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonWriter;
 import javax.persistence.*;
-import java.io.StringWriter;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -36,8 +33,8 @@ public class ProcessEventLog {
     private ProcessEvent.EventType eventType;
 
     @Column(name = "payload", columnDefinition = "json")
-    @Convert(converter = JsonStringConverter.class)
-    private String payload;
+    @Convert(converter = JsonObjectConverter.class)
+    private JsonObject payload;
 
     @Column(name = "processed_at")
     private OffsetDateTime processedAt;
@@ -95,14 +92,8 @@ public class ProcessEventLog {
         ProcessEventLog eventLog = new ProcessEventLog();
         eventLog.setProcessId(event.getProcessId());
         eventLog.setEventType(event.getEventType());
-        eventLog.setPayloadFrom(event.getPayload());
+        eventLog.setPayload(event.getPayload());
         return eventLog;
     }
 
-    private void setPayloadFrom(JsonObject payload) {
-        StringWriter stringWriter = new StringWriter();
-        JsonWriter writer = Json.createWriter(stringWriter);
-        writer.writeObject(payload);
-        this.setPayload(stringWriter.toString());
-    }
 }

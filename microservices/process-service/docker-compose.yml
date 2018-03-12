@@ -15,7 +15,7 @@ services:
 
   process-service:
     build: .
-    image: lreimer/process-service:1.1
+    image: lreimer/process-service:1.2
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
