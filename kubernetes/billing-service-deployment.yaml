@@ -25,13 +25,13 @@ spec:
           httpGet:
             path: /admin/ping
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 90
           periodSeconds: 5
         readinessProbe:
           httpGet:
             path: /admin/healthcheck
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 5
         volumeMounts:
         - mountPath: /billing-service/config/
