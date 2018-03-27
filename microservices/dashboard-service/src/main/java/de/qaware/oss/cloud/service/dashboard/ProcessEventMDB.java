@@ -14,6 +14,9 @@ import java.util.logging.Logger;
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "PROCESS.EVENTS"),
         @ActivationConfigProperty(propertyName = "resourceAdapter", propertyValue = "activemq-rar"),
+        @ActivationConfigProperty(propertyName = "clientId", propertyValue = "dashboard-service"),
+        @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "ProcessEventMDB")
+
 })
 public class ProcessEventMDB implements MessageListener {
 

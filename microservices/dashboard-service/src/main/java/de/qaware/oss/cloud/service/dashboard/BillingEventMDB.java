@@ -14,6 +14,8 @@ import java.util.logging.Logger;
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "BILLING.EVENTS"),
         @ActivationConfigProperty(propertyName = "resourceAdapter", propertyValue = "activemq-rar"),
+        @ActivationConfigProperty(propertyName = "clientId", propertyValue = "dashboard-service"),
+        @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "BillingEventMDB")
 })
 public class BillingEventMDB implements MessageListener {
 
