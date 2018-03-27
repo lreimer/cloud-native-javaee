@@ -3,9 +3,9 @@ image:https://badge.waffle.io/lreimer/cloud-native-javaee.png?label=ready&title=
 image:https://badge.waffle.io/lreimer/cloud-native-javaee.png?label=in%20progress&title=In%20Progress["Stories in Progress", link="http://waffle.io/lreimer/cloud-native-javaee"]
 image:https://img.shields.io/badge/license-MIT%20License-blue.svg["MIT License", link=https://github.com/lreimer/cloud-native-javaee/blob/master/LICENSE"]
 
-= Cloud Native JavaEE 7 Showcase
+= Cloud Native Java EE Showcase
 
-This showcase demonstrates how to build a cloud native application using JEE7 and
+This showcase demonstrates how to build a cloud native application using Java EE and
 selected open source components from Netflix OSS. The individual parts will later
 be deployed and run using Docker, Kubernetes and DC/OS.
 
@@ -17,7 +17,7 @@ be available in your SEU.
 $ ./gradlew clean build
 ```
 
-== Running the Cloud Native JEE7 showcase
+== Running the Cloud Native Java EE showcase
 
 === Locally
 
