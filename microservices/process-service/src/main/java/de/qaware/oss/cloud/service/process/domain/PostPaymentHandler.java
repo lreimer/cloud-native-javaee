@@ -1,7 +1,7 @@
 package de.qaware.oss.cloud.service.process.domain;
 
-import de.qaware.oss.cloud.service.process.integration.BillingEventQueue;
-import de.qaware.oss.cloud.service.process.integration.PaymentEventQueue;
+import de.qaware.oss.cloud.service.process.integration.BillingEventTopic;
+import de.qaware.oss.cloud.service.process.integration.PaymentEventTopic;
 import de.qaware.oss.cloud.service.process.integration.ProcessServiceConfig;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,10 +24,10 @@ public class PostPaymentHandler {
     private ProcessServiceConfig config;
 
     @Inject
-    private BillingEventQueue billingEventQueue;
+    private BillingEventTopic billingEventTopic;
 
     @Inject
-    private PaymentEventQueue paymentEventQueue;
+    private PaymentEventTopic paymentEventTopic;
 
     public void observe(@Observes ProcessEvent processEvent) {
         ProcessEvent.EventType eventType = processEvent.getEventType();
@@ -36,11 +36,11 @@ public class PostPaymentHandler {
         switch (eventType) {
             case ProcessCreated:
                 doSomeHeavyProcessing();
-                billingEventQueue.publish(eventType.name(), processEvent.getPayload());
+                billingEventTopic.publish(eventType.name(), processEvent.getPayload());
                 break;
             case BillingInitiated:
                 doSomeHeavyProcessing();
-                paymentEventQueue.publish(eventType.name(), processEvent.getPayload());
+                paymentEventTopic.publish(eventType.name(), processEvent.getPayload());
                 break;
             case PaymentReceived:
                 break;

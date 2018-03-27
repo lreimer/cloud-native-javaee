@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless
-public class BillingEventQueue {
+public class BillingEventTopic {
 
     @Inject
     private Logger logger;
@@ -21,12 +21,12 @@ public class BillingEventQueue {
     private ConnectionFactory connectionFactory;
 
     @Resource(lookup = "jms/BillingEvents")
-    private Queue billingQueue;
+    private Topic destination;
 
     public void publish(String eventType, JsonObject billingEvent) {
         try (Connection connection = connectionFactory.createConnection()) {
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageProducer producer = session.createProducer(billingQueue);
+            MessageProducer producer = session.createProducer(destination);
 
             StringWriter payload = new StringWriter();
             JsonWriter jsonWriter = Json.createWriter(payload);
@@ -37,7 +37,7 @@ public class BillingEventQueue {
             textMessage.setStringProperty("contentType", "application/vnd.billing.v1+json");
 
             producer.send(textMessage);
-            logger.log(Level.INFO, "Sent {0} to BillingEvents queue.", textMessage);
+            logger.log(Level.INFO, "Sent {0} to BillingEvents destination.", textMessage);
         } catch (JMSException e) {
             logger.log(Level.WARNING, "Could not send JMS message.", e);
         }
