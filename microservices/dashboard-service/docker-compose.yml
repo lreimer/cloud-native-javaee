@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  message-queue:
+    image: rmohr/activemq:5.14.3
+    expose:
+      - "61616"       # the JMS port
+      - "1883"        # the MQTT port
+      - "5672"        # the AMQP port
+    ports:
+      - "8161:8161"   # the admin web UI
+    networks:
+      - jee7net
+
+  process-service:
+    build: .
+    image: lreimer/dashboard-service:1.0
+    ports:
+      - "18084:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+    networks:
+      - jee7net
+
+networks:
+  jee7net:
+    driver: bridge
