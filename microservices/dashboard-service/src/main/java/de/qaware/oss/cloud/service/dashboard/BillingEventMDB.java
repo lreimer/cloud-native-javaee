@@ -8,7 +8,7 @@ import javax.jms.MessageListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@MessageDriven(name = "ProcessEventMDB", activationConfig = {
+@MessageDriven(name = "BillingEventMDB", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/ProcessEvents"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto_acknowledge"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
