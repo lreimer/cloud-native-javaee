@@ -22,15 +22,15 @@ import javax.jms.ConnectionFactory;
  * Try to create connections to the message queue to make sure it is available
  */
 @ApplicationScoped
-public class MessageQueueHealthCheck extends NamedHealthCheck {
+public class ActiveMqHealthCheck extends NamedHealthCheck {
 
     private final JmsConnectionHealthChecker healthChecker;
 
     @Resource(lookup = "jms/activeMqConnectionFactory")
     private ConnectionFactory connectionFactory;
 
-    protected MessageQueueHealthCheck() {
-        super("MessageQueue");
+    protected ActiveMqHealthCheck() {
+        super("ActiveMq");
         healthChecker = new JmsConnectionHealthChecker();
     }
 

@@ -3,8 +3,8 @@ deploy --type rar --name activemq-rar /tmp/activemq-rar-5.15.3.rar
 create-resource-adapter-config --property ServerUrl='tcp\://message-queue\:61616':UserName='admin':Password='admin' activemq-rar
 create-connector-connection-pool --raname activemq-rar --connectiondefinition javax.jms.ConnectionFactory --ping false --isconnectvalidatereq true jms/activeMqConnectionPool
 create-connector-resource --poolname jms/activeMqConnectionPool jms/activeMqConnectionFactory
-create-admin-object --raname activemq-rar --restype javax.jms.Queue --property PhysicalName=PROCESS.EVENTS jms/ProcessEvents
-create-admin-object --raname activemq-rar --restype javax.jms.Queue --property PhysicalName=BILLING.EVENTS jms/BillingEvents
+create-admin-object --raname activemq-rar --restype javax.jms.Topic --property PhysicalName=PROCESS.EVENTS jms/ProcessEvents
+create-admin-object --raname activemq-rar --restype javax.jms.Topic --property PhysicalName=BILLING.EVENTS jms/BillingEvents
 
 create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --property portNumber=5432:password='12qwasyx':user='billing':serverName=billing-db:databaseName='billing' PostgresPool
 create-jdbc-resource --connectionpoolid PostgresPool jdbc/BillingDb

@@ -1,7 +1,7 @@
 package de.qaware.oss.cloud.service.billing.domain;
 
 import de.qaware.oss.cloud.service.billing.integration.BillingServiceConfig;
-import de.qaware.oss.cloud.service.billing.integration.ProcessEventQueue;
+import de.qaware.oss.cloud.service.billing.integration.ProcessEventTopic;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -25,7 +25,7 @@ public class BillingEventHandler {
     private BillingServiceConfig config;
 
     @Inject
-    private ProcessEventQueue processEventQueue;
+    private ProcessEventTopic processEventTopic;
 
     @Inject
     private BillingEventLogStorage storage;
@@ -38,7 +38,7 @@ public class BillingEventHandler {
             case ProcessCreated:
                 doSomeSeriousBilling();
                 BillingEvent next = billingEvent.transitionTo(BillingInitiated);
-                processEventQueue.publish(next.getEventType().name(), next.getPayload());
+                processEventTopic.publish(next.getEventType().name(), next.getPayload());
                 storage.store(next);
                 break;
             default:

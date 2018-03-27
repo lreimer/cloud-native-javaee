@@ -18,10 +18,13 @@ import java.util.logging.Logger;
 
 @MessageDriven(name = "BillingEventMDB", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/BillingEvents"),
-        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto_acknowledge"),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "BILLING.EVENTS"),
         @ActivationConfigProperty(propertyName = "resourceAdapter", propertyValue = "activemq-rar"),
+        @ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "Durable"),
+        @ActivationConfigProperty(propertyName = "clientId", propertyValue = "billing-service"),
+        @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "BillingEventMDB"),
         @ActivationConfigProperty(propertyName = "messageSelector",
                 propertyValue = "contentType = 'application/vnd.billing.v1+json'")
 })
@@ -35,7 +38,7 @@ public class BillingEventMDB implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        logger.log(Level.INFO, "Received inbound message {0}.", message);
+        logger.log(Level.INFO, "Received inbound billing event message {0}.", message);
 
         String eventType = getEventType(message);
         String body = getBody(message);
