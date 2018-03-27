@@ -16,6 +16,10 @@ configurations {
 
 dependencies {
     providedCompile 'javax:javaee-api:8.0'
+
+    providedCompile 'org.eclipse.microprofile.health:microprofile-health-api:1.0'
+    providedCompile 'org.eclipse.microprofile.metrics:microprofile-metrics-api:1.0'
+
     runtime 'de.qaware.oss.logging:logging-jsr346:1.0'
 
     compileOnly 'org.projectlombok:lombok:1.16.18'

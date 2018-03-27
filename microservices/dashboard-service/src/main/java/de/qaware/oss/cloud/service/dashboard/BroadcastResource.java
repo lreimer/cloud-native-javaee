@@ -1,5 +1,7 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import org.eclipse.microprofile.metrics.annotation.Gauge;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -15,6 +17,7 @@ import javax.ws.rs.sse.OutboundSseEvent;
 import javax.ws.rs.sse.Sse;
 import javax.ws.rs.sse.SseBroadcaster;
 import javax.ws.rs.sse.SseEventSink;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,9 +32,15 @@ public class BroadcastResource {
     private Sse sse;
     private SseBroadcaster sseBroadcaster;
 
+    private AtomicLong registeredEventSinks = new AtomicLong(0);
+
     @PostConstruct
     public void initialize() {
         sseBroadcaster = sse.newBroadcaster();
+        sseBroadcaster.onClose((eventSink) -> {
+            long count = registeredEventSinks.decrementAndGet();
+            logger.log(Level.INFO, "Closing sink. Currently {0} events sinks listening.", count);
+        });
     }
 
     @GET
@@ -39,6 +48,14 @@ public class BroadcastResource {
     public void fetch(@Context SseEventSink sseEventSink) {
         logger.info("Registering new SSE event sink with broadcaster.");
         sseBroadcaster.register(sseEventSink);
+
+        long count = registeredEventSinks.incrementAndGet();
+        logger.log(Level.INFO, "Currently {0} events sinks listening.", count);
+    }
+
+    @Gauge(unit = "none")
+    public long registeredEventSinks() {
+        return registeredEventSinks.get();
     }
 
     public void broadcast(@Observes DashboardEvent event) {
