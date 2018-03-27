@@ -13,10 +13,7 @@ import java.util.logging.Logger;
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto_acknowledge"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
         @ActivationConfigProperty(propertyName = "destination", propertyValue = "PROCESS.EVENTS"),
-        @ActivationConfigProperty(propertyName = "resourceAdapter", propertyValue = "activemq-rar"),
-        @ActivationConfigProperty(propertyName = "clientId", propertyValue = "dashboard-service"),
-        @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "ProcessEventMDB")
-
+        @ActivationConfigProperty(propertyName = "resourceAdapter", propertyValue = "activemq-rar")
 })
 public class ProcessEventMDB implements MessageListener {
 
