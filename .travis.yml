@@ -22,6 +22,7 @@ before_install:
   - chmod +x microservices/process-service/gradlew
   - chmod +x microservices/billing-service/gradlew
   - chmod +x microservices/payment-service/gradlew
+  - chmod +x microservices/dashboard-service/gradlew
 
 jobs:
   include:
@@ -40,3 +41,5 @@ jobs:
       script: cd microservices/billing-service/ && ./gradlew build
     - stage: Build Microservices
       script: cd microservices/payment-service/ && ./gradlew build
+    - stage: Build Microservices
+      script: cd microservices/dashboard-service/ && ./gradlew build
