@@ -1,11 +1,12 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import javax.json.Json;
 import javax.json.JsonReader;
@@ -14,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class DashboardEventHandler implements MessageListener {
+public class DashboardEventHandler {
 
     @Inject
     private Logger logger;
@@ -22,14 +23,14 @@ public class DashboardEventHandler implements MessageListener {
     @Inject
     private Event<DashboardEvent> events;
 
-    @Override
-    public void onMessage(Message message) {
+    @Counted(monotonic = true)
+    public void onMessage(String destination, Message message) {
         String eventType = getEventType(message);
         String body = getBody(message);
 
         if ((eventType != null) && (body != null)) {
             JsonReader reader = Json.createReader(new StringReader(body));
-            events.fire(new DashboardEvent(eventType, reader.readObject()));
+            events.fire(new DashboardEvent(destination, eventType, reader.readObject()));
         }
     }
 

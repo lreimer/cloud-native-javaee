@@ -37,9 +37,15 @@ public class BroadcastResource {
     @PostConstruct
     public void initialize() {
         sseBroadcaster = sse.newBroadcaster();
+
         sseBroadcaster.onClose((eventSink) -> {
             long count = registeredEventSinks.decrementAndGet();
             logger.log(Level.INFO, "Closing sink. Currently {0} events sinks listening.", count);
+        });
+
+        sseBroadcaster.onError((sseEventSink, throwable) -> {
+            long count = registeredEventSinks.decrementAndGet();
+            logger.log(Level.WARNING, "Error on event sink. Currently {0} events sinks listening.", new Object[]{count, throwable});
         });
     }
 

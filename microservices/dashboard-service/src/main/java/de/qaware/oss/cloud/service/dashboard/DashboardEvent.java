@@ -7,6 +7,7 @@ import javax.json.JsonObject;
 @Data
 public class DashboardEvent {
 
+    private final String destination;
     private final String eventType;
     private final JsonObject payload;
 

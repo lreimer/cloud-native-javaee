@@ -1,7 +1,5 @@
 package de.qaware.oss.cloud.service.dashboard;
 
-import org.eclipse.microprofile.metrics.annotation.Counted;
-
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.inject.Inject;
@@ -26,9 +24,8 @@ public class PaymentEventMDB implements MessageListener {
     private DashboardEventHandler delegate;
 
     @Override
-    @Counted(monotonic = true)
     public void onMessage(Message message) {
         logger.log(Level.INFO, "Received inbound payment event message {0}.", message);
-        delegate.onMessage(message);
+        delegate.onMessage("PAYMENT.EVENTS", message);
     }
 }
