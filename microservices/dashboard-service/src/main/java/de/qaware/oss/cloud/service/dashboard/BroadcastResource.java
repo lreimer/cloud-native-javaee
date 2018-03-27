@@ -66,6 +66,7 @@ public class BroadcastResource {
 
     public void broadcast(@Observes DashboardEvent event) {
         JsonObject jsonObject = Json.createObjectBuilder()
+                .add("destination", event.getDestination())
                 .add("eventType", event.getEventType())
                 .add("payload", event.getPayload())
                 .build();
