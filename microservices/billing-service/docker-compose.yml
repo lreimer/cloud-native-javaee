@@ -14,7 +14,7 @@ services:
 
   billing-service:
     build: .
-    image: lreimer/billing-service:1.2
+    image: lreimer/billing-service:2.0
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:

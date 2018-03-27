@@ -14,7 +14,7 @@ services:
 
   payment-service:
     build: .
-    image: lreimer/payment-service:1.2
+    image: lreimer/payment-service:2.0
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
