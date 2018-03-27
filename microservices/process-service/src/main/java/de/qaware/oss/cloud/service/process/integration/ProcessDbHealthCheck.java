@@ -1,4 +1,4 @@
-package de.qaware.oss.cloud.service.billing.integration;
+package de.qaware.oss.cloud.service.process.integration;
 
 import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;
@@ -18,14 +18,14 @@ import java.sql.SQLException;
  */
 @ApplicationScoped
 @Health
-public class BillingDbHealthCheck implements HealthCheck {
+public class ProcessDbHealthCheck implements HealthCheck {
 
-    @Resource(lookup = "jdbc/BillingDb")
+    @Resource(lookup = "jdbc/ProcessDb")
     private DataSource dataSource;
 
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder builder = HealthCheckResponse.named("BillingDb");
+        HealthCheckResponseBuilder builder = HealthCheckResponse.named("ProcessDb");
 
         try (Connection connection = dataSource.getConnection()) {
             if (connection == null) {

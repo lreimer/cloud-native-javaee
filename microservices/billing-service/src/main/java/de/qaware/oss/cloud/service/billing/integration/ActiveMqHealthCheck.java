@@ -1,20 +1,15 @@
-/*
- *    ___  _ _____                   ___                           __
- *   / _ )(_) / (_)__  ___ _  _//   / _ \___ ___ ____ _  ___ ___  / /_
- *  / _  / / / / / _ \/ _ `/ (_-<  / ___/ _ `/ // /  ' \/ -_) _ \/ __/
- * /____/_/_/_/_/_//_/\_, / / __/ /_/   \_,_/\_, /_/_/_/\__/_//_/\__/
- *                   /___/  //              /___/
- *                                                   (c) 2017 BMW AG
- */
 package de.qaware.oss.cloud.service.billing.integration;
 
-import com.codahale.metrics.health.HealthCheck;
-import de.qaware.oss.metrics.jsr340.JmsConnectionHealthChecker;
-import de.qaware.oss.metrics.jsr340.NamedHealthCheck;
+import org.eclipse.microprofile.health.Health;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
+import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.jms.JMSException;
 
 /**
  * Health check for the message queue.
@@ -22,20 +17,24 @@ import javax.jms.ConnectionFactory;
  * Try to create connections to the message queue to make sure it is available
  */
 @ApplicationScoped
-public class ActiveMqHealthCheck extends NamedHealthCheck {
-
-    private final JmsConnectionHealthChecker healthChecker;
+@Health
+public class ActiveMqHealthCheck implements HealthCheck {
 
     @Resource(lookup = "jms/activeMqConnectionFactory")
     private ConnectionFactory connectionFactory;
 
-    protected ActiveMqHealthCheck() {
-        super("ActiveMq");
-        healthChecker = new JmsConnectionHealthChecker();
-    }
-
     @Override
-    protected HealthCheck.Result check() {
-        return healthChecker.check(connectionFactory);
+    public HealthCheckResponse call() {
+        HealthCheckResponseBuilder builder = HealthCheckResponse.named("ActiveMq");
+
+        try (Connection connection = connectionFactory.createConnection()) {
+            if (connection == null) {
+                return builder.down().withData("message", "No connection could be established.").build();
+            }
+            connection.start();
+        } catch (JMSException e) {
+            return builder.down().withData("message", e.getMessage()).build();
+        }
+        return builder.up().build();
     }
 }

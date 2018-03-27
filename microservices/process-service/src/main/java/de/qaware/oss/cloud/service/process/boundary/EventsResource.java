@@ -1,7 +1,7 @@
 package de.qaware.oss.cloud.service.process.boundary;
 
-import com.codahale.metrics.annotation.Timed;
 import de.qaware.oss.cloud.service.process.domain.ProcessEventLogStorage;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ public class EventsResource {
     private ProcessEventLogStorage storage;
 
     @GET
-    @Timed
+    @Timed(unit = "milliseconds")
     public Response events() {
         logger.info("GET all process events.");
         return Response.ok(storage.all()).build();

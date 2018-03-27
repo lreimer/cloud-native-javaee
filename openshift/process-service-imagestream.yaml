@@ -21,5 +21,10 @@ spec:
       name: lreimer/process-service:1.2
     importPolicy: {}
     name: "1.2"
+  - from:
+      kind: DockerImage
+      name: lreimer/process-service:2.0
+    importPolicy: {}
+    name: "2.0"
 status:
   dockerImageRepository: ""

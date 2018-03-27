@@ -15,11 +15,3 @@ if (file('../../infrastructure/hystrix-jsr236').exists()) {
         }
     }
 }
-
-if (file('../../infrastructure/metrics-jsr340').exists()) {
-    includeBuild('../../infrastructure/metrics-jsr340') {
-        dependencySubstitution {
-            substitute module('de.qaware.oss.metrics:metrics-jsr340') with project(':')
-        }
-    }
-}

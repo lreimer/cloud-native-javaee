@@ -1,8 +1,8 @@
 package de.qaware.oss.cloud.service.process.boundary;
 
-import com.codahale.metrics.annotation.Timed;
 import de.qaware.oss.cloud.service.process.domain.ProcessEvent;
 import de.qaware.oss.cloud.service.process.domain.ProcessStatusCache;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
@@ -40,7 +40,7 @@ public class ProcessResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Timed
+    @Timed(unit = "milliseconds")
     public void process(@Suspended AsyncResponse response, JsonObject jsonObject) {
         logger.log(Level.INFO, "POST new process {0}", jsonObject);
 
@@ -57,7 +57,7 @@ public class ProcessResource {
 
     @GET
     @Path("/{processId}/status")
-    @Timed
+    @Timed(unit = "milliseconds")
     public Response process(@PathParam("processId") String processId) {
         logger.log(Level.INFO, "GET process status for {0}", processId);
 

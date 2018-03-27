@@ -20,13 +20,13 @@ spec:
         - containerPort: 8080
         livenessProbe:
           httpGet:
-            path: /health
+            path: /api/application.wadl
             port: 8080
           initialDelaySeconds: 120
           periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /api/application.wadl
+            path: /health
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 5

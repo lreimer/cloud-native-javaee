@@ -26,9 +26,11 @@ dependencies {
     providedCompile 'javax:javaee-api:7.0'
     providedCompile 'javax.cache:cache-api:1.0.0'
 
+    providedCompile 'org.eclipse.microprofile.health:microprofile-health-api:1.0'
+    providedCompile 'org.eclipse.microprofile.metrics:microprofile-metrics-api:1.0'
+
     runtime 'de.qaware.oss.logging:logging-jsr346:1.0'
     compile 'de.qaware.oss.hystrix:hystrix-jsr236:1.0'
-    compile 'de.qaware.oss.metrics:metrics-jsr340:1.0'
 
     providedCompile 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
     providedRuntime 'com.fasterxml.jackson.core:jackson-databind:2.8.5'

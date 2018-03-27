@@ -1,7 +1,7 @@
 package de.qaware.oss.cloud.service.billing.boundary;
 
-import com.codahale.metrics.annotation.Timed;
 import de.qaware.oss.cloud.service.billing.domain.BillingEventLogStorage;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ public class EventsResource {
     private BillingEventLogStorage storage;
 
     @GET
-    @Timed
+    @Timed(unit = "milliseconds")
     public Response events() {
         logger.info("GET all billing events.");
         return Response.ok(storage.all()).build();

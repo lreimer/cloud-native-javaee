@@ -21,17 +21,17 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 5701
-        # livenessProbe:
-        #   httpGet:
-        #     path: /admin/ping
-        #     port: 8080
-        #   initialDelaySeconds: 90
-        #   periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /api/application.wadl
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /admin/healthcheck
+            path: /health
             port: 8080
-          initialDelaySeconds: 45
+          initialDelaySeconds: 60
           periodSeconds: 5
         resources: {}
         volumeMounts:
@@ -52,5 +52,5 @@ spec:
       - payment-service
       from:
         kind: ImageStreamTag
-        name: payment-service:1.2
+        name: payment-service:2.0
     type: ImageChange

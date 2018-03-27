@@ -1,12 +1,14 @@
 package de.qaware.oss.cloud.service.payment.integration;
 
-import com.codahale.metrics.health.HealthCheck;
-import de.qaware.oss.metrics.jsr340.DataSourceHealthChecker;
-import de.qaware.oss.metrics.jsr340.NamedHealthCheck;
+import org.eclipse.microprofile.health.Health;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Health check for the database
@@ -14,20 +16,26 @@ import javax.sql.DataSource;
  * Try to get a connection to the database to make sure it is still available
  */
 @ApplicationScoped
-public class PaymentDbHealthCheck extends NamedHealthCheck {
-
-    private final DataSourceHealthChecker healthChecker;
+@Health
+public class PaymentDbHealthCheck implements HealthCheck {
 
     @Resource(lookup = "jdbc/PaymentDb")
     private DataSource dataSource;
 
-    protected PaymentDbHealthCheck() {
-        super("Database");
-        healthChecker = new DataSourceHealthChecker();
-    }
-
     @Override
-    protected HealthCheck.Result check() {
-        return healthChecker.check(dataSource);
+    public HealthCheckResponse call() {
+        HealthCheckResponseBuilder builder = HealthCheckResponse.named("PaymentDb");
+
+        try (java.sql.Connection connection = dataSource.getConnection()) {
+            if (connection == null) {
+                return builder.down().withData("message", "No database connection could be established.").build();
+            }
+            if (!connection.isValid(1)) {
+                return builder.down().withData("message", "Connection is not valid.").build();
+            }
+        } catch (SQLException e) {
+            return builder.down().withData("message", e.getMessage()).build();
+        }
+        return builder.up().build();
     }
 }

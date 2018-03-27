@@ -1,8 +1,8 @@
 package de.qaware.oss.cloud.service.process.boundary;
 
-import com.codahale.metrics.annotation.Timed;
 import de.qaware.oss.cloud.service.process.integration.ProcessServiceConfig;
 import org.apache.deltaspike.core.api.projectstage.ProjectStage;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ public class ConfigResource {
     private ProcessServiceConfig config;
 
     @GET
-    @Timed
+    @Timed(unit = "milliseconds")
     public Response config() {
         JsonObject result = Json.createObjectBuilder()
                 .add("projectStage", projectStage.toString())
