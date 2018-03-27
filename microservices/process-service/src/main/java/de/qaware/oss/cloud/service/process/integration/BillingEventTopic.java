@@ -27,6 +27,8 @@ public class BillingEventTopic {
         try (Connection connection = connectionFactory.createConnection()) {
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             MessageProducer producer = session.createProducer(destination);
+            producer.setDeliveryDelay(1000);    // 1 second
+            producer.setTimeToLive(1000 * 300); // 5 minutes
 
             StringWriter payload = new StringWriter();
             JsonWriter jsonWriter = Json.createWriter(payload);
