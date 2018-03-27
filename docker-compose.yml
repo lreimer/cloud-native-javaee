@@ -45,6 +45,7 @@ services:
     ports:
       - "18081:8080"  # the HTTP endpoint
     depends_on:
+      - message-queue
       - datagrid-service
       - process-db
     networks:
@@ -63,8 +64,8 @@ services:
     ports:
       - "18082:8080"  # the HTTP endpoint
     depends_on:
+      - message-queue
       - datagrid-service
-      - process-service
       - billing-db
     networks:
       - jee7net
@@ -82,9 +83,19 @@ services:
     ports:
       - "18083:8080"  # the HTTP endpoint
     depends_on:
+      - message-queue
       - datagrid-service
-      - process-service
       - payment-db
+    networks:
+      - jee7net
+
+  dashboard-service:
+    build: ./microservices/dashboard-service
+    image: lreimer/dashboard-service:1.0
+    ports:
+      - "18084:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
     networks:
       - jee7net
 
