@@ -1,6 +1,4 @@
 image:https://travis-ci.org/lreimer/cloud-native-javaee.svg?branch=master["Build Status", link="https://travis-ci.org/lreimer/cloud-native-javaee"]
-image:https://badge.waffle.io/lreimer/cloud-native-javaee.png?label=ready&title=Ready["Stories in Ready", link="http://waffle.io/lreimer/cloud-native-javaee"]
-image:https://badge.waffle.io/lreimer/cloud-native-javaee.png?label=in%20progress&title=In%20Progress["Stories in Progress", link="http://waffle.io/lreimer/cloud-native-javaee"]
 image:https://img.shields.io/badge/license-MIT%20License-blue.svg["MIT License", link=https://github.com/lreimer/cloud-native-javaee/blob/master/LICENSE"]
 
 = Cloud Native Java EE Showcase
