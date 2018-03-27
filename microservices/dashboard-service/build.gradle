@@ -16,6 +16,9 @@ configurations {
 
 dependencies {
     providedCompile 'javax:javaee-api:8.0'
+    runtime 'de.qaware.oss.logging:logging-jsr346:1.0'
+
+    compileOnly 'org.projectlombok:lombok:1.16.18'
 
     activemq 'org.apache.activemq:activemq-rar:5.15.3@rar'
 }
