@@ -7,11 +7,3 @@ if (file('../../infrastructure/logging-jsr346').exists()) {
         }
     }
 }
-
-if (file('../../infrastructure/hystrix-jsr236').exists()) {
-    includeBuild('../../infrastructure/hystrix-jsr236') {
-        dependencySubstitution {
-            substitute module('de.qaware.oss.hystrix:hystrix-jsr236') with project(':')
-        }
-    }
-}
