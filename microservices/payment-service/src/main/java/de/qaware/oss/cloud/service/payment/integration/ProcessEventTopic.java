@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless
-public class ProcessEventQueue {
+public class ProcessEventTopic {
 
     @Inject
     private Logger logger;
@@ -21,12 +21,12 @@ public class ProcessEventQueue {
     private ConnectionFactory connectionFactory;
 
     @Resource(lookup = "jms/ProcessEvents")
-    private Queue processQueue;
+    private Topic destination;
 
     public void publish(String eventType, JsonObject processEvents) {
         try (Connection connection = connectionFactory.createConnection()) {
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageProducer producer = session.createProducer(processQueue);
+            MessageProducer producer = session.createProducer(destination);
 
             StringWriter payload = new StringWriter();
             JsonWriter jsonWriter = Json.createWriter(payload);
@@ -37,7 +37,7 @@ public class ProcessEventQueue {
             textMessage.setStringProperty("contentType", "application/vnd.process.v1+json");
 
             producer.send(textMessage);
-            logger.log(Level.INFO, "Sent {0} to ProcessEvents queue.", textMessage);
+            logger.log(Level.INFO, "Sent {0} to ProcessEvents destination.", textMessage);
         } catch (JMSException e) {
             logger.log(Level.WARNING, "Could not send JMS message.", e);
         }

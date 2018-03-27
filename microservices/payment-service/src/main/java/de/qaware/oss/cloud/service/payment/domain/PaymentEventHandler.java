@@ -1,7 +1,7 @@
 package de.qaware.oss.cloud.service.payment.domain;
 
 import de.qaware.oss.cloud.service.payment.integration.PaymentServiceConfig;
-import de.qaware.oss.cloud.service.payment.integration.ProcessEventQueue;
+import de.qaware.oss.cloud.service.payment.integration.ProcessEventTopic;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -25,7 +25,7 @@ public class PaymentEventHandler {
     private PaymentServiceConfig config;
 
     @Inject
-    private ProcessEventQueue processEventQueue;
+    private ProcessEventTopic processEventTopic;
 
     @Inject
     private PaymentEventLogStorage storage;
@@ -38,7 +38,7 @@ public class PaymentEventHandler {
             case BillingInitiated:
                 doSomeExpensivePayment();
                 PaymentEvent next = paymentEvent.transitionTo(PaymentReceived);
-                processEventQueue.publish(next.getEventType().name(), next.getPayload());
+                processEventTopic.publish(next.getEventType().name(), next.getPayload());
                 storage.store(next);
                 break;
             default:
