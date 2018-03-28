@@ -54,13 +54,16 @@
         <div class="r-11 row" id="c23">
             <div class="container">
                 <form action="" method="post" onsubmit="submitForm(); return false;">
-                    <label for="processId">Reference Nr.</label>
-                    <input type="text" name="processId" id="processId"/>&nbsp;
-                    <label for="name">Name</label>
-                    <input type="text" name="name" id="name"/>&nbsp;
-                    <label for="amount">Amount</label>
-                    <input type="text" name="amount" id="amount"/>&nbsp;
-                    <input type="submit" value="Send"/>
+                    <fieldset>
+                        <legend>New Process Details</legend>
+                        <label for="processId">Reference Nr.</label>
+                        <input type="text" name="processId" id="processId"/>&nbsp;
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name"/>&nbsp;
+                        <label for="amount">Amount</label>
+                        <input type="text" name="amount" id="amount"/>&nbsp;
+                        <input type="submit" value="Send"/>
+                    </fieldset>
                 </form>
                 <script>
                     function submitForm() {
@@ -90,7 +93,7 @@
                 </script>
             </div>
         </div>
-
+        <br>
         <div class="row r-12-12 bg-white" id="c333">
             <div class="container">
                 <div id="events"></div>
