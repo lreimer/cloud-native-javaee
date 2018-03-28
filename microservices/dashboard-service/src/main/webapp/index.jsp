@@ -54,7 +54,7 @@
         <div class="r-11 row" id="c23">
             <div class="container">
                 <form action="" method="post" onsubmit="submitForm(); return false;">
-                    <fieldset>
+                    <fieldset style="border: 1px solid darkgray; padding: 0.5em;">
                         <legend>New Process Details</legend>
                         <label for="processId">Reference Nr.</label>
                         <input type="text" name="processId" id="processId"/>&nbsp;
@@ -93,7 +93,7 @@
                 </script>
             </div>
         </div>
-        <br>
+
         <div class="row r-12-12 bg-white" id="c333">
             <div class="container">
                 <div id="events"></div>
