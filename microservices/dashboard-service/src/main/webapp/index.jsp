@@ -6,6 +6,19 @@
 </head>
 <body>
 
+<div id="gui">
+    <form action="/api/gui" method="post">
+        <label for="processId">Reference Nr.</label>
+        <input type="text" name="processId" id="processId"/><br>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name"/><br>
+        <label for="amount">Amount</label>
+        <input type="text" name="amount" id="amount"/><br>
+        <br>
+        <input type="submit" value="Send"/>
+    </form>
+</div>
+
 <div id="events"></div>
 
 <script>
