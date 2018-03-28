@@ -25,8 +25,8 @@ public class ProcessServiceClient {
     @PostConstruct
     void initialize() {
         client = ClientBuilder.newBuilder()
-                .connectTimeout(3, TimeUnit.SECONDS)
-                .readTimeout(3, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
                 .build();
 
         processService = client.target("http://process-service:8080").path("/api/process");

@@ -30,7 +30,7 @@ public class GuiResource {
                          @FormParam("amount") @NotNull Long amount) {
         logger.log(Level.INFO, "Received form POST request ({0}, {1}, {2}).", new Object[]{processId, name, amount});
         processService.send(processId, name, amount);
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
 
