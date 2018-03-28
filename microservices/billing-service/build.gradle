@@ -32,29 +32,22 @@ dependencies {
     providedCompile 'org.eclipse.microprofile.health:microprofile-health-api:1.0'
     providedCompile 'org.eclipse.microprofile.metrics:microprofile-metrics-api:1.0'
 
-    runtime 'de.qaware.oss.logging:logging-jsr346:1.0'
-    compile 'org.apache.commons:commons-lang3:3.7'
-
-    providedCompile 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
-    providedRuntime 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.3'
-
     providedCompile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.22.2'
-    providedRuntime 'org.glassfish.jersey.media:jersey-media-multipart:2.21'
-    providedRuntime 'org.glassfish.jersey.core:jersey-common:2.22.2'
-    providedRuntime 'org.glassfish.jersey.core:jersey-server:2.22.2'
-    providedRuntime 'org.glassfish.jersey.ext:jersey-bean-validation:2.22.2'
-    providedCompile 'org.glassfish.jersey.core:jersey-client:2.22.2'
+    providedCompile 'org.postgresql:postgresql:42.2.1'
 
+    providedRuntime 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
+    providedRuntime 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.5'
+
+    compile 'org.apache.commons:commons-lang3:3.7'
     compile 'org.apache.deltaspike.core:deltaspike-core-api:1.8.0'
     compile 'org.apache.deltaspike.core:deltaspike-core-impl:1.8.0'
 
+    runtime 'de.qaware.oss.logging:logging-jsr346:1.0'
     runtime 'org.slf4j:slf4j-api:1.7.24'
     runtime 'org.slf4j:slf4j-jdk14:1.7.24'
 
     compileOnly 'org.projectlombok:lombok:1.16.18'
-
-    providedCompile 'org.postgresql:postgresql:42.2.1'
 
     activemq 'org.apache.activemq:activemq-rar:5.15.3@rar'
     postgresql 'org.postgresql:postgresql:42.2.1'
