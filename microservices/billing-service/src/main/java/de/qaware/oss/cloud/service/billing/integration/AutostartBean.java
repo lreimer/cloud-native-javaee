@@ -21,5 +21,6 @@ public class AutostartBean {
     @PostConstruct
     void autostart() {
         logger.info("Autostarting Billing service entity manager.");
+        entityManager.clear();
     }
 }
