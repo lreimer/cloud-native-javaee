@@ -7,6 +7,8 @@ This showcase demonstrates how to build a cloud native application using Java EE
 selected open source components from Netflix OSS. The individual parts will later
 be deployed and run using Docker, Kubernetes and DC/OS.
 
+image:architecture.png["Showcase Architecture"]
+
 == Build instructions
 
 In order to compile and run the examples you do not need much. A recent JDK8 needs to
