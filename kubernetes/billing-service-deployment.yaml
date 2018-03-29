@@ -16,7 +16,7 @@ spec:
         hazelcast: enabled
     spec:
       containers:
-      - image: lreimer/billing-service:1.2
+      - image: lreimer/billing-service:2.0
         name: billing-service
         ports:
         - containerPort: 8080

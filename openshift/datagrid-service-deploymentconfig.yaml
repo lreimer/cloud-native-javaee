@@ -52,5 +52,5 @@ spec:
       - datagrid-service
       from:
         kind: ImageStreamTag
-        name: datagrid-service:1.0
+        name: datagrid-service:2.0
     type: ImageChange

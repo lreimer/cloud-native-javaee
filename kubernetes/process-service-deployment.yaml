@@ -16,7 +16,7 @@ spec:
         hazelcast: enabled
     spec:
       containers:
-      - image: lreimer/process-service:1.2
+      - image: lreimer/process-service:2.0
         name: process-service
         ports:
         - containerPort: 8080

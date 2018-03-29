@@ -11,5 +11,10 @@ spec:
       name: lreimer/datagrid-service:1.0
     importPolicy: {}
     name: "1.0"
+  - from:
+      kind: DockerImage
+      name: lreimer/datagrid-service:2.0
+    importPolicy: {}
+    name: "2.0"
 status:
   dockerImageRepository: ""

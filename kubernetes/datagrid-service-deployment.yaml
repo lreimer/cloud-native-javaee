@@ -16,7 +16,7 @@ spec:
         hazelcast: enabled
     spec:
       containers:
-      - image: lreimer/datagrid-service:1.0
+      - image: lreimer/datagrid-service:2.0
         name: datagrid-service
         ports:
         - containerPort: 8080
