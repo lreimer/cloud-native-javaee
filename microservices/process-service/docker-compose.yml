@@ -1,4 +1,4 @@
-version: '3'
+version: "2.3"
 
 services:
 
@@ -16,6 +16,7 @@ services:
   process-service:
     build: .
     image: lreimer/process-service:2.0
+    mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
