@@ -21,7 +21,7 @@ services:
 
   datagrid-service:
     build: ./microservices/datagrid-service
-    image: lreimer/datagrid-service:1.0
+    image: lreimer/datagrid-service:2.0
     volumes:
       - ./microservices/datagrid-service/src/main/hazelcast/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
     expose:
