@@ -1,4 +1,4 @@
-version: '3'
+version: "2.3"
 
 services:
 
@@ -16,6 +16,7 @@ services:
   process-service:
     build: .
     image: lreimer/dashboard-service:1.0
+    mem_limit: 600m
     ports:
       - "18084:8080"  # the HTTP endpoint
     depends_on:
