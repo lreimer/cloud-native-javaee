@@ -1,4 +1,4 @@
-version: '3'
+version: "2.3"
 
 services:
   portainer:
@@ -10,6 +10,7 @@ services:
 
   message-queue:
     image: rmohr/activemq:5.14.3
+    mem_limit: 600m
     expose:
       - "61616"       # the JMS port
       - "1883"        # the MQTT port
@@ -22,6 +23,7 @@ services:
   datagrid-service:
     build: ./microservices/datagrid-service
     image: lreimer/datagrid-service:2.0
+    mem_limit: 600m
     volumes:
       - ./microservices/datagrid-service/src/main/hazelcast/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
     expose:
@@ -35,6 +37,7 @@ services:
   process-service:
     build: ./microservices/process-service
     image: lreimer/process-service:2.0
+    mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
@@ -54,6 +57,7 @@ services:
   billing-service:
     build: ./microservices/billing-service
     image: lreimer/billing-service:2.0
+    mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
@@ -73,6 +77,7 @@ services:
   payment-service:
     build: ./microservices/payment-service
     image: lreimer/payment-service:2.0
+    mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
@@ -92,6 +97,7 @@ services:
   dashboard-service:
     build: ./microservices/dashboard-service
     image: lreimer/dashboard-service:1.0
+    mem_limit: 600m
     ports:
       - "18084:8080"  # the HTTP endpoint
     depends_on:
@@ -101,6 +107,7 @@ services:
 
   process-db:
     image: "postgres:9.6.3"
+    mem_limit: 256m
     environment:
       - POSTGRES_USER=process
       - POSTGRES_PASSWORD=12qwasyx
@@ -111,6 +118,7 @@ services:
 
   billing-db:
     image: "postgres:9.6.3"
+    mem_limit: 256m
     environment:
       - POSTGRES_USER=billing
       - POSTGRES_PASSWORD=12qwasyx
@@ -121,6 +129,7 @@ services:
 
   payment-db:
     image: "postgres:9.6.3"
+    mem_limit: 256m
     environment:
       - POSTGRES_USER=payment
       - POSTGRES_PASSWORD=12qwasyx
