@@ -1,4 +1,4 @@
-version: '3'
+version: "2.3"
 
 services:
   message-queue:
@@ -15,6 +15,7 @@ services:
   payment-service:
     build: .
     image: lreimer/payment-service:2.0
+    mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
     volumes:
