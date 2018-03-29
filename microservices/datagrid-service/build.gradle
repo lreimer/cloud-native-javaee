@@ -19,6 +19,7 @@ dependencies {
     providedCompile 'javax.cache:cache-api:1.0.0'
 
     // hazelcast 'com.hazelcast:hazelcast-kubernetes:1.1.0'
+    hazelcast 'org.slf4j:slf4j-jdk14:1.7.24'
     hazelcast(group: 'com.hazelcast', name: 'hazelcast-kubernetes', version: '1.1.0') {
         exclude module: 'hazelcast'
         exclude module: 'jackson-annotations'
@@ -26,6 +27,7 @@ dependencies {
         exclude module: 'jackson-databind'
         exclude module: 'jackson-module-jaxb-annotations'
         exclude module: 'validation-api'
+        exclude module: 'jul-to-slf4j'
     }
 }
 
