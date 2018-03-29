@@ -21,4 +21,11 @@ spec:
         name: process-db
         ports:
         - containerPort: 5432
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
       restartPolicy: Always

@@ -21,6 +21,13 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 5701
+        resources:
+          requests:
+            memory: "400Mi"
+            cpu: "250m"
+          limits:
+            memory: "600Mi"
+            cpu: "500m"
         livenessProbe:
           httpGet:
             path: /api/application.wadl

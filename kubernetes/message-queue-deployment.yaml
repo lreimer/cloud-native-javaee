@@ -19,4 +19,11 @@ spec:
         - containerPort: 1883
         - containerPort: 5672
         - containerPort: 61616
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "250m"
+          limits:
+            memory: "600Mi"
+            cpu: "500m"
       restartPolicy: Always
