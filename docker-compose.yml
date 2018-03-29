@@ -3,6 +3,7 @@ version: "2.3"
 services:
   portainer:
     image: portainer/portainer
+    mem_limit: 50m
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
