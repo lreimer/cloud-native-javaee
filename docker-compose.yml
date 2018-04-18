@@ -97,7 +97,7 @@ services:
 
   dashboard-service:
     build: ./microservices/dashboard-service
-    image: lreimer/dashboard-service:1.0
+    image: lreimer/dashboard-service:1.1
     mem_limit: 600m
     ports:
       - "18084:8080"  # the HTTP endpoint

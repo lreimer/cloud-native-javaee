@@ -103,10 +103,17 @@
                         var source = new EventSource("/api/broadcast");
 
                         source.addEventListener("event", function (e) {
-                            document.getElementById("events").innerHTML += e.data + "<br>";
+                            document.getElementById("events").innerHTML += "(SSE) " + e.data + "<br>";
                         }, false);
                     } else {
                         document.getElementById("events").innerHTML = "Sorry, your browser does not support server-sent events...";
+                    }
+
+                    var socket = new WebSocket(location.href.replace(/^http/, 'ws').replace('index.jsp', '') + 'events');
+                    socket.onmessage = onMessage;
+
+                    function onMessage(event) {
+                        document.getElementById("events").innerHTML += "(WebSocket) " + event.data + "<br>";
                     }
                 </script>
             </div>

@@ -11,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.sse.OutboundSseEvent;
 import javax.ws.rs.sse.Sse;
 import javax.ws.rs.sse.SseBroadcaster;
@@ -50,17 +49,12 @@ public class BroadcastResource {
 
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
-    public Response fetch(@Context SseEventSink sseEventSink) {
+    public void fetch(@Context SseEventSink sseEventSink) {
         logger.info("Registering new SSE event sink with broadcaster.");
         sseBroadcaster.register(sseEventSink);
 
         long count = registeredEventSinks.incrementAndGet();
         logger.log(Level.INFO, "Currently {0} events sinks listening.", count);
-
-        return Response.ok()
-                .header("Cache-Control", "no-cache")
-                .header("X-Accel-Buffering", "no")
-                .build();
     }
 
     @Gauge(unit = "none")
