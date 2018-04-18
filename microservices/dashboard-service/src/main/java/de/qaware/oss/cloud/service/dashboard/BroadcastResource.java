@@ -6,8 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -65,15 +63,9 @@ public class BroadcastResource {
     }
 
     public void broadcast(@Observes DashboardEvent event) {
-        JsonObject jsonObject = Json.createObjectBuilder()
-                .add("destination", event.getDestination())
-                .add("eventType", event.getEventType())
-                .add("payload", event.getPayload())
-                .build();
-
         OutboundSseEvent broadcastEvent = sse.newEventBuilder()
                 .name("event")
-                .data(jsonObject)
+                .data(event.toJson())
                 .mediaType(MediaType.APPLICATION_JSON_TYPE)
                 .build();
 
