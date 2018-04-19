@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard-service
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: dashboard-service.cloudkoffer
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dashboard-service
+          servicePort: http
