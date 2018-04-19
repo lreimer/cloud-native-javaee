@@ -27,18 +27,18 @@ spec:
             cpu: "250m"
           limits:
             memory: "600Mi"
-            cpu: "500m"
+            cpu: "1000m"
         livenessProbe:
           httpGet:
             path: /api/application.wadl
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 120
           periodSeconds: 5
         readinessProbe:
           httpGet:
             path: /api/application.wadl
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 5
         volumeMounts:
         - mountPath: /opt/payara/config/
