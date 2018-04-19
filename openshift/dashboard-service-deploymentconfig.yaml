@@ -47,5 +47,5 @@ spec:
       - dashboard-service
       from:
         kind: ImageStreamTag
-        name: dashboard-service:1.0
+        name: dashboard-service:1.1
     type: ImageChange

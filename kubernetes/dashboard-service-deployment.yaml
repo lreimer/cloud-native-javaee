@@ -14,7 +14,7 @@ spec:
         io.kompose.service: dashboard-service
     spec:
       containers:
-      - image: lreimer/dashboard-service:1.0
+      - image: lreimer/dashboard-service:1.1
         name: dashboard-service
         ports:
         - containerPort: 8080
