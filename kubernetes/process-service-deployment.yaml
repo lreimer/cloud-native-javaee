@@ -14,6 +14,9 @@ spec:
       labels:
         io.kompose.service: process-service
         hazelcast: enabled
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
     spec:
       containers:
       - image: lreimer/process-service:2.0

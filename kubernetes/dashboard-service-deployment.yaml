@@ -12,6 +12,9 @@ spec:
     metadata:
       labels:
         io.kompose.service: dashboard-service
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
     spec:
       containers:
       - image: lreimer/dashboard-service:1.1
