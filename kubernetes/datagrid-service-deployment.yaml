@@ -23,15 +23,15 @@ spec:
         name: datagrid-service
         env:
         - name: JAEGER_SERVICE_NAME
-          value: datagrid-service
+          value: "datagrid-service"
         - name: JAEGER_AGENT_HOST
-          value: jaeger-service.opentracing.svc.cluster.local
+          value: "jaeger-service.opentracing.svc.cluster.local"
         - name: JAEGER_AGENT_PORT
-          value: 6831
+          value: "6831"
         - name: JAEGER_SAMPLER_TYPE
-          value: probabilistic
+          value: "probabilistic"
         - name: JAEGER_SAMPLER_PARAM
-          value: 1
+          value: "1"
         ports:
         - containerPort: 8080
         - containerPort: 5701
