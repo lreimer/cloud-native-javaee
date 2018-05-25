@@ -24,6 +24,10 @@ configurations {
         description = "lib/ext dependencies"
         transitive = true
     }
+    opentracing {
+        description = "Opentracing dependencies"
+        transitive = true
+    }
 }
 
 dependencies {
@@ -33,7 +37,7 @@ dependencies {
     providedCompile 'org.eclipse.microprofile.metrics:microprofile-metrics-api:1.0'
 
     providedCompile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.22.2'
-    providedCompile 'org.postgresql:postgresql:42.2.1'
+    providedCompile 'org.postgresql:postgresql:42.2.2'
 
     providedRuntime 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
     providedRuntime 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
@@ -63,6 +67,13 @@ dependencies {
         exclude module: 'jul-to-slf4j'
     }
 
+    providedCompile 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
+    providedCompile 'io.jaegertracing:jaeger-core:0.27.0'
+    providedCompile 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
+
+    opentracing 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
+    opentracing 'io.jaegertracing:jaeger-core:0.27.0'
+    opentracing 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
 }
 
 task copyActiveMqLibs(type: Copy) {
@@ -80,4 +91,9 @@ task copyHazelcastLibs(type: Copy) {
     into "$buildDir/hazelcast"
 }
 
-build.dependsOn copyActiveMqLibs, copyPostgresqlLibs, copyHazelcastLibs
+task copyOpenTracingLibs(type: Copy) {
+    from configurations.opentracing
+    into "$buildDir/opentracing"
+}
+
+build.dependsOn copyActiveMqLibs, copyPostgresqlLibs, copyHazelcastLibs, copyOpenTracingLibs

@@ -1,5 +1,6 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import javax.annotation.PostConstruct;
@@ -25,6 +26,7 @@ public class ProcessServiceClient {
     @PostConstruct
     void initialize() {
         client = ClientBuilder.newBuilder()
+                .register(ClientTracingFeature.class)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .build();

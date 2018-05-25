@@ -1,6 +1,8 @@
 package de.qaware.oss.cloud.service.payment.boundary;
 
 import de.qaware.oss.cloud.service.payment.domain.PaymentEvent;
+import io.opentracing.contrib.jms.common.TracingMessageListener;
+import io.opentracing.util.GlobalTracer;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -40,13 +42,15 @@ public class PaymentEventMDB implements MessageListener {
     public void onMessage(Message message) {
         logger.log(Level.INFO, "Received inbound payment event message {0}.", message);
 
-        String eventType = getEventType(message);
-        String body = getBody(message);
+        new TracingMessageListener(msg -> {
+            String eventType = getEventType(msg);
+            String body = getBody(msg);
 
-        if ((eventType != null) && (body != null)) {
-            JsonReader reader = Json.createReader(new StringReader(body));
-            paymentEvent.fire(PaymentEvent.from(eventType, reader.readObject()));
-        }
+            if ((eventType != null) && (body != null)) {
+                JsonReader reader = Json.createReader(new StringReader(body));
+                paymentEvent.fire(PaymentEvent.from(eventType, reader.readObject()));
+            }
+        }, GlobalTracer.get()).onMessage(message);
     }
 
     private String getBody(Message message) {

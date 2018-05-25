@@ -19,8 +19,19 @@ spec:
         prometheus.io/port: '8080'
     spec:
       containers:
-      - image: lreimer/payment-service:2.0
+      - image: sklapproth/payment-service:opentracing_1.0
         name: payment-service
+        env:
+        - name: JAEGER_SERVICE_NAME
+          value: payment-service
+        - name: JAEGER_AGENT_HOST
+          value: jaeger-service
+        - name: JAEGER_AGENT_PORT
+          value: 6831
+        - name: JAEGER_SAMPLER_TYPE
+          value: probabilistic
+        - name: JAEGER_SAMPLER_PARAM
+          value: 1
         ports:
         - containerPort: 8080
         - containerPort: 5701

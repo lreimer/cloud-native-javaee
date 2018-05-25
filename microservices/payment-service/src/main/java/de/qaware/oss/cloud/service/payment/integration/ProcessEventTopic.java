@@ -1,5 +1,8 @@
 package de.qaware.oss.cloud.service.payment.integration;
 
+import io.opentracing.contrib.jms.TracingMessageProducer;
+import io.opentracing.util.GlobalTracer;
+
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,7 +29,7 @@ public class ProcessEventTopic {
     public void publish(String eventType, JsonObject processEvents) {
         try (Connection connection = connectionFactory.createConnection()) {
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageProducer producer = session.createProducer(destination);
+            MessageProducer producer = new TracingMessageProducer(session.createProducer(destination), GlobalTracer.get());
             // producer.setDeliveryDelay(1000);    // 1 second
             producer.setTimeToLive(1000 * 300); // 5 minutes
 

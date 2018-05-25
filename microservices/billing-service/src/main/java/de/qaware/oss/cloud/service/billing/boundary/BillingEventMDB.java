@@ -1,6 +1,8 @@
 package de.qaware.oss.cloud.service.billing.boundary;
 
 import de.qaware.oss.cloud.service.billing.domain.BillingEvent;
+import io.opentracing.contrib.jms.common.TracingMessageListener;
+import io.opentracing.util.GlobalTracer;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -40,13 +42,16 @@ public class BillingEventMDB implements MessageListener {
     public void onMessage(Message message) {
         logger.log(Level.INFO, "Received inbound billing event message {0}.", message);
 
-        String eventType = getEventType(message);
-        String body = getBody(message);
+        new TracingMessageListener(msg -> {
+            String eventType = getEventType(msg);
+            String body = getBody(msg);
 
-        if ((eventType != null) && (body != null)) {
-            JsonReader reader = Json.createReader(new StringReader(body));
-            billingEvent.fire(BillingEvent.from(eventType, reader.readObject()));
-        }
+            if ((eventType != null) && (body != null)) {
+                JsonReader reader = Json.createReader(new StringReader(body));
+                billingEvent.fire(BillingEvent.from(eventType, reader.readObject()));
+            }
+        }, GlobalTracer.get())
+                .onMessage(message);
     }
 
     private String getBody(Message message) {

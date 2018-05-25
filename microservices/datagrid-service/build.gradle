@@ -12,6 +12,10 @@ configurations {
         description = "Hazelcast dependencies"
         transitive = true
     }
+    opentracing {
+        description = "Opentracing dependencies"
+        transitive = true
+    }
 }
 
 dependencies {
@@ -29,6 +33,14 @@ dependencies {
         exclude module: 'validation-api'
         exclude module: 'jul-to-slf4j'
     }
+
+    providedCompile 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
+    providedCompile 'io.jaegertracing:jaeger-core:0.27.0'
+    providedCompile 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
+
+    opentracing 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
+    opentracing 'io.jaegertracing:jaeger-core:0.27.0'
+    opentracing 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
 }
 
 task copyHazelcastLibs(type: Copy) {
@@ -36,4 +48,9 @@ task copyHazelcastLibs(type: Copy) {
     into "$buildDir/hazelcast"
 }
 
-build.dependsOn copyHazelcastLibs
+task copyOpenTracingLibs(type: Copy) {
+    from configurations.opentracing
+    into "$buildDir/opentracing"
+}
+
+build.dependsOn copyHazelcastLibs, copyOpenTracingLibs
