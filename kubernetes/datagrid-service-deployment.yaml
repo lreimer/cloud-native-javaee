@@ -25,7 +25,7 @@ spec:
         - name: JAEGER_SERVICE_NAME
           value: datagrid-service
         - name: JAEGER_AGENT_HOST
-          value: jaeger-service
+          value: jaeger-service.opentracing.svc.cluster.local
         - name: JAEGER_AGENT_PORT
           value: 6831
         - name: JAEGER_SAMPLER_TYPE
