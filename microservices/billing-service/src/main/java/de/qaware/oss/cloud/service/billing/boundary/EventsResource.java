@@ -2,9 +2,8 @@ package de.qaware.oss.cloud.service.billing.boundary;
 
 import de.qaware.oss.cloud.service.billing.domain.BillingEventLog;
 import de.qaware.oss.cloud.service.billing.domain.BillingEventLogStorage;
-import io.opentracing.Span;
-import io.opentracing.util.GlobalTracer;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -29,12 +28,11 @@ public class EventsResource {
 
     @GET
     @Timed(unit = "milliseconds")
+    @Traced(operationName = "GET /api/events")
     public Response events() {
-        Span childSpan = GlobalTracer.get().buildSpan("GET all billing events.").start();
-
         logger.info("GET all billing events.");
         Collection<BillingEventLog> events = storage.all();
-        childSpan.finish();
+
         return Response.ok(events).build();
     }
 

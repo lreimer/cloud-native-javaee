@@ -1,10 +1,9 @@
 package de.qaware.oss.cloud.service.billing.boundary;
 
 import de.qaware.oss.cloud.service.billing.integration.BillingServiceConfig;
-import io.opentracing.Span;
-import io.opentracing.util.GlobalTracer;
 import org.apache.deltaspike.core.api.projectstage.ProjectStage;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -29,16 +28,14 @@ public class ConfigResource {
 
     @GET
     @Timed(unit = "milliseconds")
+    @Traced(operationName = "GET /api/config")
     public Response config() {
-
-        Span childSpan = GlobalTracer.get().buildSpan("GET config").start();
-
         JsonObject result = Json.createObjectBuilder()
                 .add("projectStage", projectStage.toString())
                 .add("serviceName", config.serviceName())
                 .add("processingSeconds", config.processingSeconds())
                 .build();
-        childSpan.finish();
+
         return Response.ok(result).build();
     }
 

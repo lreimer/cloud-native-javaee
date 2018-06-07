@@ -1,8 +1,8 @@
 package de.qaware.oss.cloud.service.billing.boundary;
 
 import de.qaware.oss.cloud.service.billing.domain.BillingEvent;
+import io.opentracing.Tracer;
 import io.opentracing.contrib.jms.common.TracingMessageListener;
-import io.opentracing.util.GlobalTracer;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -38,20 +38,14 @@ public class BillingEventMDB implements MessageListener {
     @Inject
     private Event<BillingEvent> billingEvent;
 
+    @Inject
+    private Tracer tracer;
+
     @Override
     public void onMessage(Message message) {
         logger.log(Level.INFO, "Received inbound billing event message {0}.", message);
 
-        new TracingMessageListener(msg -> {
-            String eventType = getEventType(msg);
-            String body = getBody(msg);
-
-            if ((eventType != null) && (body != null)) {
-                JsonReader reader = Json.createReader(new StringReader(body));
-                billingEvent.fire(BillingEvent.from(eventType, reader.readObject()));
-            }
-        }, GlobalTracer.get())
-                .onMessage(message);
+        new TracingMessageListener(this::onInstrumentedMessage, tracer).onMessage(message);
     }
 
     private String getBody(Message message) {
@@ -74,5 +68,16 @@ public class BillingEventMDB implements MessageListener {
             logger.log(Level.WARNING, "Could not get JMS type.", e);
         }
         return eventType;
+    }
+
+    private void onInstrumentedMessage(Message msg) {
+        String eventType = getEventType(msg);
+        String body = getBody(msg);
+
+        if ((eventType != null) && (body != null)) {
+            try (JsonReader reader = Json.createReader(new StringReader(body))) {
+                billingEvent.fire(BillingEvent.from(eventType, reader.readObject()));
+            }
+        }
     }
 }

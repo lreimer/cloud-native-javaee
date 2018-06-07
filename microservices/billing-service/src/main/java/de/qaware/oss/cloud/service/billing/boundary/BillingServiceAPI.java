@@ -1,9 +1,10 @@
 package de.qaware.oss.cloud.service.billing.boundary;
 
+import io.opentracing.Tracer;
 import io.opentracing.contrib.jaxrs2.server.ServerTracingDynamicFeature;
-import io.opentracing.util.GlobalTracer;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
+import javax.inject.Inject;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.container.DynamicFeature;
 import javax.ws.rs.core.Application;
@@ -17,10 +18,12 @@ import java.util.Set;
 @ApplicationPath("/api/")
 public class BillingServiceAPI extends Application {
 
+    @Inject
+    private Tracer tracer;
+
     @Override
     public Set<Object> getSingletons() {
-        DynamicFeature tracing = new ServerTracingDynamicFeature.Builder(GlobalTracer.get())
-                .build();
+        DynamicFeature tracing = new ServerTracingDynamicFeature.Builder(tracer).build();
         return Collections.singleton(tracing);
     }
 
