@@ -26,5 +26,10 @@ spec:
       name: lreimer/billing-service:2.0
     importPolicy: {}
     name: "2.0"
+  - from:
+      kind: DockerImage
+      name: lreimer/billing-service:2.1
+    importPolicy: {}
+    name: "2.1"
 status:
   dockerImageRepository: ""
