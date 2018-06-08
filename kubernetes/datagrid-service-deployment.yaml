@@ -19,17 +19,19 @@ spec:
         prometheus.io/port: '8080'
     spec:
       containers:
-      - image: sklapproth/datagrid-service:opentracing_1.0
+      - image: lreimer/datagrid-service:2.1
         name: datagrid-service
         env:
         - name: JAEGER_SERVICE_NAME
           value: "datagrid-service"
         - name: JAEGER_AGENT_HOST
-          value: "jaeger-service.opentracing.svc.cluster.local"
-        - name: JAEGER_AGENT_PORT
-          value: "6831"
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: JAEGER_REPORTER_LOG_SPANS
+          value: "true"
         - name: JAEGER_SAMPLER_TYPE
-          value: "probabilistic"
+          value: "const"
         - name: JAEGER_SAMPLER_PARAM
           value: "1"
         ports:

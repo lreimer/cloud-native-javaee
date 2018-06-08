@@ -17,17 +17,19 @@ spec:
         prometheus.io/port: '8080'
     spec:
       containers:
-      - image: sklapproth/dashboard-service:opentracing_1.0
+      - image: lreimer/dashboard-service:1.2
         name: dashboard-service
         env:
         - name: JAEGER_SERVICE_NAME
           value: "dashboard-service"
         - name: JAEGER_AGENT_HOST
-          value: "jaeger-service.opentracing.svc.cluster.local"
-        - name: JAEGER_AGENT_PORT
-          value: "6831"
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: JAEGER_REPORTER_LOG_SPANS
+          value: "true"
         - name: JAEGER_SAMPLER_TYPE
-          value: "probabilistic"
+          value: "const"
         - name: JAEGER_SAMPLER_PARAM
           value: "1"
         ports:
