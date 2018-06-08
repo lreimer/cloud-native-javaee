@@ -1,6 +1,8 @@
 package de.qaware.oss.cloud.service.process.boundary;
 
 import de.qaware.oss.cloud.service.process.domain.ProcessEvent;
+import io.opentracing.Tracer;
+import io.opentracing.contrib.jms.common.TracingMessageListener;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
@@ -36,17 +38,14 @@ public class ProcessEventMDB implements MessageListener {
     @Inject
     private Event<ProcessEvent> processEvent;
 
+    @Inject
+    private Tracer tracer;
+
     @Override
     public void onMessage(Message message) {
         logger.log(Level.INFO, "Received inbound process event message {0}.", message);
 
-        String eventType = getEventType(message);
-        String body = getBody(message);
-
-        if ((eventType != null) && (body != null)) {
-            JsonReader reader = Json.createReader(new StringReader(body));
-            processEvent.fire(ProcessEvent.from(eventType, reader.readObject()));
-        }
+        new TracingMessageListener(this::onTracedMessage, tracer).onMessage(message);
     }
 
     private String getBody(Message message) {
@@ -69,5 +68,16 @@ public class ProcessEventMDB implements MessageListener {
             logger.log(Level.WARNING, "Could not get JMS type.", e);
         }
         return eventType;
+    }
+
+    private void onTracedMessage(Message m) {
+        String eventType = getEventType(m);
+        String body = getBody(m);
+
+        if ((eventType != null) && (body != null)) {
+            try (JsonReader reader = Json.createReader(new StringReader(body))) {
+                processEvent.fire(ProcessEvent.from(eventType, reader.readObject()));
+            }
+        }
     }
 }

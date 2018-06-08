@@ -1,5 +1,7 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import io.opentracing.contrib.cdi.Traced;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -24,17 +26,17 @@ public class WebSocketHandler {
         sessions = new CopyOnWriteArraySet<>();
     }
 
+    @Traced
     public void broadcast(@Observes DashboardEvent event) {
         logger.info("Broadcasting event to sessions.");
+
         sessions.forEach(session -> {
-            synchronized (session) {
-                try {
-                    String text = event.toJson().toString();
-                    session.getBasicRemote().sendText(text);
-                    logger.log(Level.INFO, "Broadcasting event {0} to session.", text);
-                } catch (IOException e) {
-                    logger.log(Level.WARNING, "Error writing event to websocket.", e);
-                }
+            try {
+                String text = event.toJson().toString();
+                session.getBasicRemote().sendText(text);
+                logger.log(Level.INFO, "Broadcasting event {0} to session.", text);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error writing event to websocket.", e);
             }
         });
     }

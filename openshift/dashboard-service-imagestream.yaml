@@ -16,5 +16,10 @@ spec:
       name: lreimer/dashboard-service:1.1
     importPolicy: {}
     name: "1.1"
+  - from:
+      kind: DockerImage
+      name: lreimer/dashboard-service:1.2
+    importPolicy: {}
+    name: "1.2"
 status:
   dockerImageRepository: ""

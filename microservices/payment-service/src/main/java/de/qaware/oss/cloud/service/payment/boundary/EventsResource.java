@@ -2,6 +2,7 @@ package de.qaware.oss.cloud.service.payment.boundary;
 
 import de.qaware.oss.cloud.service.payment.domain.PaymentEventLogStorage;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ public class EventsResource {
 
     @GET
     @Timed(unit = "milliseconds")
+    @Traced(operationName = "GET /api/events")
     public Response events() {
         logger.info("GET all payment events.");
         return Response.ok(storage.all()).build();

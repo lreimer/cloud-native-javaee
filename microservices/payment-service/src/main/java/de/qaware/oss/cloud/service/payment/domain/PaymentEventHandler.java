@@ -2,6 +2,7 @@ package de.qaware.oss.cloud.service.payment.domain;
 
 import de.qaware.oss.cloud.service.payment.integration.PaymentServiceConfig;
 import de.qaware.oss.cloud.service.payment.integration.ProcessEventTopic;
+import io.opentracing.contrib.cdi.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -16,6 +17,7 @@ import static de.qaware.oss.cloud.service.payment.domain.PaymentEvent.EventType.
  * Handles any PaymentEvents.
  */
 @ApplicationScoped
+@Traced
 public class PaymentEventHandler {
 
     @Inject

@@ -1,5 +1,7 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import org.eclipse.microprofile.opentracing.Traced;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotBlank;
@@ -25,6 +27,7 @@ public class GuiResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Traced(operationName = "POST send")
     public Response send(@FormParam("processId") @NotBlank String processId,
                          @FormParam("name") @NotBlank String name,
                          @FormParam("amount") @NotNull Long amount) {

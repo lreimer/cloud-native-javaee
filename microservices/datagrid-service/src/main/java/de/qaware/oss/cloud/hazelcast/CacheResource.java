@@ -1,5 +1,7 @@
 package de.qaware.oss.cloud.hazelcast;
 
+import org.eclipse.microprofile.opentracing.Traced;
+
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.configuration.CompleteConfiguration;
@@ -16,10 +18,11 @@ import java.net.URI;
 import java.util.Optional;
 
 /**
- * The REST resource to do stuff with the heap.
+ * The REST resource to do stuff with the cache.
  */
 @Path("/hazelcast")
 @Produces(MediaType.APPLICATION_JSON)
+@Traced
 public class CacheResource {
 
     @Inject

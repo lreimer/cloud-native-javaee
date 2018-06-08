@@ -18,6 +18,19 @@ spec:
       containers:
       - image: ' '
         name: process-service
+        env:
+        - name: JAEGER_SERVICE_NAME
+          value: "process-service"
+        - name: JAEGER_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: JAEGER_REPORTER_LOG_SPANS
+          value: "true"
+        - name: JAEGER_SAMPLER_TYPE
+          value: "const"
+        - name: JAEGER_SAMPLER_PARAM
+          value: "1"
         ports:
         - containerPort: 8080
         - containerPort: 5701
@@ -59,5 +72,5 @@ spec:
       - process-service
       from:
         kind: ImageStreamTag
-        name: process-service:2.0
+        name: process-service:2.1
     type: ImageChange

@@ -16,6 +16,19 @@ spec:
       containers:
       - image: ' '
         name: dashboard-service
+        env:
+        - name: JAEGER_SERVICE_NAME
+          value: "dashboard-service"
+        - name: JAEGER_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: JAEGER_REPORTER_LOG_SPANS
+          value: "true"
+        - name: JAEGER_SAMPLER_TYPE
+          value: "const"
+        - name: JAEGER_SAMPLER_PARAM
+          value: "1"
         ports:
         - containerPort: 8080
         resources:
@@ -47,5 +60,5 @@ spec:
       - dashboard-service
       from:
         kind: ImageStreamTag
-        name: dashboard-service:1.1
+        name: dashboard-service:1.2
     type: ImageChange

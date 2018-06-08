@@ -12,6 +12,12 @@ configurations {
         description = "Active MQ dependencies"
         transitive = true
     }
+    opentracing {
+        description = "Opentracing dependencies"
+        transitive = true
+    }
+
+    providedCompile.extendsFrom opentracing
 }
 
 dependencies {
@@ -26,6 +32,15 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.18'
 
     activemq 'org.apache.activemq:activemq-rar:5.15.3@rar'
+
+    runtime 'de.qaware.oss.tracing:tracing-jsr346:1.0'
+    compile 'io.opentracing.contrib:opentracing-cdi:0.1.0'
+    compile 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
+    compile 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
+
+    opentracing 'io.opentracing:opentracing-api:0.31.0'
+    opentracing 'io.jaegertracing:jaeger-core:0.28.0'
+    opentracing 'io.jaegertracing:jaeger-tracerresolver:0.28.0'
 }
 
 task copyActiveMqLibs(type: Copy) {
@@ -33,4 +48,9 @@ task copyActiveMqLibs(type: Copy) {
     into "$buildDir/activemq"
 }
 
-build.dependsOn copyActiveMqLibs
+task copyOpenTracingLibs(type: Copy) {
+    from configurations.opentracing
+    into "$buildDir/opentracing"
+}
+
+build.dependsOn copyActiveMqLibs, copyOpenTracingLibs

@@ -23,8 +23,14 @@ services:
 
   datagrid-service:
     build: ./microservices/datagrid-service
-    image: lreimer/datagrid-service:2.0
+    image: lreimer/datagrid-service:2.1
     mem_limit: 600m
+    environment:
+      - JAEGER_SERVICE_NAME=datagrid-service
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_REPORTER_LOG_SPANS=true
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
     volumes:
       - ./microservices/datagrid-service/src/main/hazelcast/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
     expose:
@@ -37,10 +43,15 @@ services:
 
   process-service:
     build: ./microservices/process-service
-    image: lreimer/process-service:2.0
+    image: lreimer/process-service:2.1
     mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+      - JAEGER_SERVICE_NAME=process-service
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_REPORTER_LOG_SPANS=true
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
     volumes:
       - ./microservices/process-service/src/main/hazelcast/hazelcast_default.xml:/process-service/config/hazelcast.xml
     expose:
@@ -57,10 +68,15 @@ services:
 
   billing-service:
     build: ./microservices/billing-service
-    image: lreimer/billing-service:2.0
+    image: lreimer/billing-service:2.1
     mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+      - JAEGER_SERVICE_NAME=billing-service
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_REPORTER_LOG_SPANS=true
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
     volumes:
       - ./microservices/billing-service/src/main/hazelcast/hazelcast_default.xml:/billing-service/config/hazelcast.xml
     expose:
@@ -70,17 +86,21 @@ services:
       - "18082:8080"  # the HTTP endpoint
     depends_on:
       - message-queue
-      - datagrid-service
       - billing-db
     networks:
       - jee7net
 
   payment-service:
     build: ./microservices/payment-service
-    image: lreimer/payment-service:2.0
+    image: lreimer/payment-service:2.1
     mem_limit: 600m
     environment:
       - org_apache_deltaspike_ProjectStage=Development
+      - JAEGER_SERVICE_NAME=payment-service
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_REPORTER_LOG_SPANS=true
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
     volumes:
       - ./microservices/payment-service/src/main/hazelcast/hazelcast_default.xml:/payment-service/config/hazelcast.xml
     expose:
@@ -90,15 +110,20 @@ services:
       - "18083:8080"  # the HTTP endpoint
     depends_on:
       - message-queue
-      - datagrid-service
       - payment-db
     networks:
       - jee7net
 
   dashboard-service:
     build: ./microservices/dashboard-service
-    image: lreimer/dashboard-service:1.1
+    image: lreimer/dashboard-service:1.2
     mem_limit: 600m
+    environment:
+      - JAEGER_SERVICE_NAME=dashboard-service
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_REPORTER_LOG_SPANS=true
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
     ports:
       - "18084:8080"  # the HTTP endpoint
     depends_on:
@@ -136,6 +161,21 @@ services:
       - POSTGRES_PASSWORD=12qwasyx
     ports:
       - "35432:5432"
+    networks:
+      - jee7net
+
+  jaeger:
+    image: "jaegertracing/all-in-one:1.5.0"
+    mem_limit: 256m
+    expose:
+      - "14268"
+      - "9411"
+      - "5775/udp"
+      - "6831/udp"
+      - "6832/udp"
+      - "5778"
+    ports:
+      - "16686:16686"
     networks:
       - jee7net
 

@@ -1,5 +1,8 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import io.opentracing.Tracer;
+import io.opentracing.contrib.jms.common.TracingMessageListener;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.inject.Inject;
@@ -23,9 +26,12 @@ public class PaymentEventMDB implements MessageListener {
     @Inject
     private DashboardEventHandler delegate;
 
+    @Inject
+    private Tracer tracer;
+
     @Override
     public void onMessage(Message message) {
         logger.log(Level.INFO, "Received inbound payment event message {0}.", message);
-        delegate.onMessage("PAYMENT.EVENTS", message);
+        new TracingMessageListener(msg -> delegate.onMessage("PAYMENT.EVENTS", msg), tracer).onMessage(message);
     }
 }

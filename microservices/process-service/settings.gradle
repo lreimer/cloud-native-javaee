@@ -7,3 +7,11 @@ if (file('../../infrastructure/logging-jsr346').exists()) {
         }
     }
 }
+
+if (file('../../infrastructure/tracing-jsr346').exists()) {
+    includeBuild('../../infrastructure/tracing-jsr346') {
+        dependencySubstitution {
+            substitute module('de.qaware.oss.tracing:tracing-jsr346') with project(':')
+        }
+    }
+}

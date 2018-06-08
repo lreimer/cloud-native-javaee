@@ -24,6 +24,12 @@ configurations {
         description = "lib/ext dependencies"
         transitive = true
     }
+    opentracing {
+        description = "Opentracing dependencies"
+        transitive = true
+    }
+
+    providedCompile.extendsFrom postgresql, opentracing
 }
 
 dependencies {
@@ -33,7 +39,6 @@ dependencies {
     providedCompile 'org.eclipse.microprofile.metrics:microprofile-metrics-api:1.0'
 
     providedCompile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.22.2'
-    providedCompile 'org.postgresql:postgresql:42.2.1'
 
     providedRuntime 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
     providedRuntime 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
@@ -49,10 +54,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.18'
 
     activemq 'org.apache.activemq:activemq-rar:5.15.3@rar'
-    postgresql 'org.postgresql:postgresql:42.2.1'
+    postgresql 'org.postgresql:postgresql:42.2.2'
 
     // hazelcast 'com.hazelcast:hazelcast-kubernetes:1.1.0'
-    hazelcast 'org.slf4j:slf4j-jdk14:1.7.24'
+    hazelcast 'org.slf4j:slf4j-jdk14:1.7.25'
     hazelcast(group: 'com.hazelcast', name: 'hazelcast-kubernetes', version: '1.1.0') {
         exclude module: 'hazelcast'
         exclude module: 'jackson-annotations'
@@ -63,6 +68,14 @@ dependencies {
         exclude module: 'jul-to-slf4j'
     }
 
+    runtime 'de.qaware.oss.tracing:tracing-jsr346:1.0'
+    compile 'io.opentracing.contrib:opentracing-cdi:0.1.0'
+    compile 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
+    compile 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
+
+    opentracing 'io.opentracing:opentracing-api:0.31.0'
+    opentracing 'io.jaegertracing:jaeger-core:0.28.0'
+    opentracing 'io.jaegertracing:jaeger-tracerresolver:0.28.0'
 }
 
 task copyActiveMqLibs(type: Copy) {
@@ -80,4 +93,9 @@ task copyHazelcastLibs(type: Copy) {
     into "$buildDir/hazelcast"
 }
 
-build.dependsOn copyActiveMqLibs, copyPostgresqlLibs, copyHazelcastLibs
+task copyOpenTracingLibs(type: Copy) {
+    from configurations.opentracing
+    into "$buildDir/opentracing"
+}
+
+build.dependsOn copyActiveMqLibs, copyPostgresqlLibs, copyHazelcastLibs, copyOpenTracingLibs

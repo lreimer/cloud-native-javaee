@@ -1,5 +1,6 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import io.opentracing.contrib.cdi.Traced;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 
 import javax.annotation.PostConstruct;
@@ -62,6 +63,7 @@ public class BroadcastResource {
         return registeredEventSinks.get();
     }
 
+    @Traced
     public void broadcast(@Observes DashboardEvent event) {
         OutboundSseEvent broadcastEvent = sse.newEventBuilder()
                 .name("event")

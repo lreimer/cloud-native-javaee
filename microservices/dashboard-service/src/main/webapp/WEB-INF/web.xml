@@ -9,4 +9,15 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <filter>
+        <filter-name>TracingFilter</filter-name>
+        <filter-class>io.opentracing.contrib.web.servlet.filter.TracingFilter</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>TracingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
