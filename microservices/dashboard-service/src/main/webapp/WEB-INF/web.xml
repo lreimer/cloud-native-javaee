@@ -12,6 +12,7 @@
     <filter>
         <filter-name>TracingFilter</filter-name>
         <filter-class>io.opentracing.contrib.web.servlet.filter.TracingFilter</filter-class>
+        <async-supported>true</async-supported>
     </filter>
 
     <filter-mapping>
