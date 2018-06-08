@@ -2,6 +2,7 @@ package de.qaware.oss.cloud.service.billing.domain;
 
 import de.qaware.oss.cloud.service.billing.integration.BillingServiceConfig;
 import de.qaware.oss.cloud.service.billing.integration.ProcessEventTopic;
+import io.opentracing.contrib.cdi.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -16,6 +17,7 @@ import static de.qaware.oss.cloud.service.billing.domain.BillingEvent.EventType.
  * Handle any BillingEvents.
  */
 @ApplicationScoped
+@Traced
 public class BillingEventHandler {
 
     @Inject
