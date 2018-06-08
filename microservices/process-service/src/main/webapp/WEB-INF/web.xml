@@ -5,13 +5,14 @@
 
     <display-name>Process Service</display-name>
 
-    <servlet>
-        <servlet-name>adminServlet</servlet-name>
-        <servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>adminServlet</servlet-name>
-        <url-pattern>/admin/*</url-pattern>
-    </servlet-mapping>
+    <filter>
+        <filter-name>TracingFilter</filter-name>
+        <filter-class>io.opentracing.contrib.web.servlet.filter.TracingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>TracingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

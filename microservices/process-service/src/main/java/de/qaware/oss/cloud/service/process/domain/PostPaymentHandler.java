@@ -3,6 +3,7 @@ package de.qaware.oss.cloud.service.process.domain;
 import de.qaware.oss.cloud.service.process.integration.BillingEventTopic;
 import de.qaware.oss.cloud.service.process.integration.PaymentEventTopic;
 import de.qaware.oss.cloud.service.process.integration.ProcessServiceConfig;
+import io.opentracing.contrib.cdi.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -29,6 +30,7 @@ public class PostPaymentHandler {
     @Inject
     private PaymentEventTopic paymentEventTopic;
 
+    @Traced
     public void observe(@Observes ProcessEvent processEvent) {
         ProcessEvent.EventType eventType = processEvent.getEventType();
         logger.log(Level.INFO, "{0} for {1}.", new Object[]{eventType, processEvent.getPayload()});

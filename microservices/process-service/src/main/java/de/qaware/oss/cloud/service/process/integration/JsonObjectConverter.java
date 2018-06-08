@@ -23,8 +23,9 @@ public class JsonObjectConverter implements AttributeConverter<JsonObject, PGobj
         po.setType("json");
         try {
             StringWriter stringWriter = new StringWriter();
-            JsonWriter writer = Json.createWriter(stringWriter);
-            writer.writeObject(attribute);
+            try (JsonWriter writer = Json.createWriter(stringWriter)) {
+                writer.writeObject(attribute);
+            }
             po.setValue(stringWriter.toString());
         } catch (SQLException e) {
             throw new IllegalStateException(e);
@@ -34,7 +35,8 @@ public class JsonObjectConverter implements AttributeConverter<JsonObject, PGobj
 
     @Override
     public JsonObject convertToEntityAttribute(PGobject dbData) {
-        JsonReader reader = Json.createReader(new StringReader(dbData.getValue()));
-        return reader.readObject();
+        try (JsonReader reader = Json.createReader(new StringReader(dbData.getValue()))) {
+            return reader.readObject();
+        }
     }
 }

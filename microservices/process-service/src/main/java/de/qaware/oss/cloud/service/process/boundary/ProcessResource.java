@@ -3,6 +3,7 @@ package de.qaware.oss.cloud.service.process.boundary;
 import de.qaware.oss.cloud.service.process.domain.ProcessEvent;
 import de.qaware.oss.cloud.service.process.domain.ProcessStatusCache;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
@@ -44,7 +45,7 @@ public class ProcessResource {
     public void process(@Suspended AsyncResponse response, JsonObject jsonObject) {
         logger.log(Level.INFO, "POST new process {0}", jsonObject);
 
-        response.setTimeout(5, TimeUnit.SECONDS);
+        response.setTimeout(10, TimeUnit.SECONDS);
         response.setTimeoutHandler((r) -> r.resume(Response.accepted().build()));
 
         executorService.execute(() -> {
@@ -58,6 +59,7 @@ public class ProcessResource {
     @GET
     @Path("/{processId}/status")
     @Timed(unit = "milliseconds")
+    @Traced(operationName = "GET /api/process")
     public Response process(@PathParam("processId") String processId) {
         logger.log(Level.INFO, "GET process status for {0}", processId);
 
