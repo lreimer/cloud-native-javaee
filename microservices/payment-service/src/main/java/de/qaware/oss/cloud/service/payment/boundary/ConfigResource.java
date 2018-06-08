@@ -3,6 +3,7 @@ package de.qaware.oss.cloud.service.payment.boundary;
 import de.qaware.oss.cloud.service.payment.integration.PaymentServiceConfig;
 import org.apache.deltaspike.core.api.projectstage.ProjectStage;
 import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.opentracing.Traced;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -27,6 +28,7 @@ public class ConfigResource {
 
     @GET
     @Timed(unit = "milliseconds")
+    @Traced(operationName = "GET /api/config")
     public Response config() {
         JsonObject result = Json.createObjectBuilder()
                 .add("projectStage", projectStage.toString())
