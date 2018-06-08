@@ -1,5 +1,6 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import io.opentracing.contrib.cdi.Traced;
 import io.opentracing.contrib.jaxrs2.client.ClientTracingFeature;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
@@ -40,6 +41,7 @@ public class ProcessServiceClient {
     }
 
     @Timeout(value = 5, unit = ChronoUnit.SECONDS)
+    @Traced
     public void send(String processId, String name, Long amount) {
         JsonObject payload = Json.createObjectBuilder()
                 .add("processId", processId)

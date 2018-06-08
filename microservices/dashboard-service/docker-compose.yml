@@ -15,12 +15,34 @@ services:
 
   dashboard-service:
     build: .
-    image: lreimer/dashboard-service:1.1
+    image: lreimer/dashboard-service:1.2
     mem_limit: 600m
+    environment:
+      - org_apache_deltaspike_ProjectStage=Development
+      - JAEGER_SERVICE_NAME=dashboard-service
+      - JAEGER_AGENT_HOST=jaeger
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
+      - JAEGER_REPORTER_LOG_SPANS=true
     ports:
       - "18084:8080"  # the HTTP endpoint
     depends_on:
       - message-queue
+    networks:
+      - jee7net
+
+  jaeger:
+    image: "jaegertracing/all-in-one:1.5.0"
+    mem_limit: 256m
+    expose:
+      - "14268"
+      - "9411"
+      - "5775/udp"
+      - "6831/udp"
+      - "6832/udp"
+      - "5778"
+    ports:
+      - "16686:16686"
     networks:
       - jee7net
 

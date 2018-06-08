@@ -1,5 +1,6 @@
 package de.qaware.oss.cloud.service.dashboard;
 
+import io.opentracing.contrib.cdi.Traced;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,13 +25,15 @@ public class DashboardEventHandler {
     private Event<DashboardEvent> events;
 
     @Counted(monotonic = true)
+    @Traced
     public void onMessage(String destination, Message message) {
         String eventType = getEventType(message);
         String body = getBody(message);
 
         if ((eventType != null) && (body != null)) {
-            JsonReader reader = Json.createReader(new StringReader(body));
-            events.fire(new DashboardEvent(destination, eventType, reader.readObject()));
+            try (JsonReader reader = Json.createReader(new StringReader(body))) {
+                events.fire(new DashboardEvent(destination, eventType, reader.readObject()));
+            }
         }
     }
 

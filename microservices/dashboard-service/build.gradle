@@ -16,6 +16,8 @@ configurations {
         description = "Opentracing dependencies"
         transitive = true
     }
+
+    providedCompile.extendsFrom opentracing
 }
 
 dependencies {
@@ -31,13 +33,14 @@ dependencies {
 
     activemq 'org.apache.activemq:activemq-rar:5.15.3@rar'
 
-    providedCompile 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
-    providedCompile 'io.jaegertracing:jaeger-core:0.27.0'
-    providedCompile 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
+    runtime 'de.qaware.oss.tracing:tracing-jsr346:1.0'
+    compile 'io.opentracing.contrib:opentracing-cdi:0.1.0'
+    compile 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
+    compile 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
 
-    opentracing 'io.opentracing.contrib:opentracing-jaxrs2:0.1.5'
-    opentracing 'io.jaegertracing:jaeger-core:0.27.0'
-    opentracing 'io.opentracing.contrib:opentracing-jms-2:0.0.7'
+    opentracing 'io.opentracing:opentracing-api:0.31.0'
+    opentracing 'io.jaegertracing:jaeger-core:0.28.0'
+    opentracing 'io.jaegertracing:jaeger-tracerresolver:0.28.0'
 }
 
 task copyActiveMqLibs(type: Copy) {

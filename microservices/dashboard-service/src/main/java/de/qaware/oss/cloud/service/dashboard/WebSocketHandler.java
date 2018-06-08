@@ -1,7 +1,6 @@
 package de.qaware.oss.cloud.service.dashboard;
 
-import io.opentracing.Span;
-import io.opentracing.util.GlobalTracer;
+import io.opentracing.contrib.cdi.Traced;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -27,35 +26,19 @@ public class WebSocketHandler {
         sessions = new CopyOnWriteArraySet<>();
     }
 
+    @Traced
     public void broadcast(@Observes DashboardEvent event) {
         logger.info("Broadcasting event to sessions.");
 
-        Span span = GlobalTracer.get().buildSpan("broadcast to all sessions").start();
-        try {
-            sessions.forEach(session -> {
-                synchronized (session) {
-                    broadcastToSession(event, span, session);
-                }
-            });
-        } finally {
-            span.finish();
-        }
-    }
-
-    private void broadcastToSession(@Observes DashboardEvent event, Span span, Session session) {
-
-        Span child = GlobalTracer.get().buildSpan("broadcast to session")
-                .asChildOf(span)
-                .start();
-        try {
-            String text = event.toJson().toString();
-            session.getBasicRemote().sendText(text);
-            logger.log(Level.INFO, "Broadcasting event {0} to session.", text);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error writing event to websocket.", e);
-        } finally {
-            child.finish();
-        }
+        sessions.forEach(session -> {
+            try {
+                String text = event.toJson().toString();
+                session.getBasicRemote().sendText(text);
+                logger.log(Level.INFO, "Broadcasting event {0} to session.", text);
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Error writing event to websocket.", e);
+            }
+        });
     }
 
     public void add(Session session) {

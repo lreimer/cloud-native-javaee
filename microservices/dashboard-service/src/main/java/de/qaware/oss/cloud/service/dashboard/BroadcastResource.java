@@ -1,7 +1,6 @@
 package de.qaware.oss.cloud.service.dashboard;
 
-import io.opentracing.Span;
-import io.opentracing.util.GlobalTracer;
+import io.opentracing.contrib.cdi.Traced;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 
 import javax.annotation.PostConstruct;
@@ -64,6 +63,7 @@ public class BroadcastResource {
         return registeredEventSinks.get();
     }
 
+    @Traced
     public void broadcast(@Observes DashboardEvent event) {
         OutboundSseEvent broadcastEvent = sse.newEventBuilder()
                 .name("event")
@@ -72,13 +72,6 @@ public class BroadcastResource {
                 .build();
 
         logger.log(Level.INFO, "Broadcasting event {0}.", broadcastEvent);
-
-        Span span = GlobalTracer.get().buildSpan("broadcastEvent").start();
-        try {
-            sseBroadcaster.broadcast(broadcastEvent);
-        } finally {
-            span.finish();
-        }
-
+        sseBroadcaster.broadcast(broadcastEvent);
     }
 }
