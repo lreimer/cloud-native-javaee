@@ -12,6 +12,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
@@ -42,7 +43,7 @@ public class ProcessResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Timed(unit = "milliseconds")
-    public void process(@Suspended AsyncResponse response, JsonObject jsonObject) {
+    public void process(@Suspended AsyncResponse response, @NotNull JsonObject jsonObject) {
         logger.log(Level.INFO, "POST new process {0}", jsonObject);
 
         response.setTimeout(10, TimeUnit.SECONDS);
