@@ -3,6 +3,11 @@ kind: Deployment
 metadata:
   labels:
     io.kompose.service: dashboard-service
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: PURPLE
+    LAUNCHPAD_ROW: "4"
+    cloudcontrol.enabled: "true"
+    cloudcontrol.index: "4"
   name: dashboard-service
 spec:
   replicas: 1

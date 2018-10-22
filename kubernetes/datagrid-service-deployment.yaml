@@ -4,6 +4,11 @@ metadata:
   labels:
     io.kompose.service: datagrid-service
     hazelcast: enabled
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: BLUE
+    LAUNCHPAD_ROW: "0"
+    cloudcontrol.enabled: "true"
+    cloudcontrol.index: "0"
   name: datagrid-service
 spec:
   replicas: 3

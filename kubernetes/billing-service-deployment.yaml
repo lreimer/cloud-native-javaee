@@ -4,6 +4,11 @@ metadata:
   labels:
     io.kompose.service: billing-service
     hazelcast: enabled
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: ORANGE
+    LAUNCHPAD_ROW: "3"
+    cloudcontrol.enabled: "true"
+    cloudcontrol.index: "3"
   name: billing-service
 spec:
   replicas: 1
